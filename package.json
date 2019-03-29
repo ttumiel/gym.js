@@ -1,0 +1,15 @@
+{
+  "name": "gym.js",
+  "version": "0.0.1",
+  "description": "A JavaScript Environment for Reinforcement Learning.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "reinforcement",
+    "learning"
+  ],
+  "author": "Thomas Tumiel",
+  "license": "MIT"
+}
