@@ -11,5 +11,8 @@
     "learning"
   ],
   "author": "Thomas Tumiel",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.4.1"
+  }
 }
