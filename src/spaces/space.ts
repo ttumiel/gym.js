@@ -1,5 +1,7 @@
+import * as tf from '@tensorflow/tfjs';
+
 export interface Space {
-    shape:[];
+    shape:tf.Tensor;
     type:any;
 
     sample():number;

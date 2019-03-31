@@ -1,4 +1,4 @@
-import {Space} from './space';
+import {Space} from './spaces/space';
 
 interface Env {
     action_space:Space;
