@@ -1,4 +1,4 @@
-import { Space } from './spaces/space';
+import Space from './spaces/space';
 
 /**
  * This class is derived from OpenAI's Gym (https://github.com/openai/gym)

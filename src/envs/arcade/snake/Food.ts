@@ -1,22 +1,19 @@
-import * as Phaser from "phaser";
+import * as Phaser from 'phaser';
 
-export default class Food extends Phaser.GameObjects.Image{
-    total:number;
+export default class Food extends Phaser.GameObjects.Image {
+  total: number;
 
-    constructor (scene, x, y)
-    {
-        super(scene,x*16,y*16,'block');
+  constructor(scene, x, y) {
+    super(scene, x * 16, y * 16, 'block');
 
-        this.setOrigin(0);
+    this.setOrigin(0);
 
-        this.total = 0;
+    this.total = 0;
 
-        scene.children.add(this);
-    }
+    scene.children.add(this);
+  }
 
-    eat()
-    {
-        this.total++;
-    }
-
-};
+  eat() {
+    this.total++;
+  }
+}
