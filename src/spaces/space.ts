@@ -6,4 +6,7 @@ export default interface Space {
 
   sample(): number;
   seed(seed: number): void;
+  set(space: tf.Tensor): void;
+  get(): tf.Tensor;
+  // contains(action: number): boolean;
 }
