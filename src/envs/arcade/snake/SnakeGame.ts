@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import Snake from './Snake';
+import SnakeBody from './SnakeBody';
 import Food from './Food';
 import Env from '../../../core';
 import Discrete from '../../../spaces/discrete';
@@ -13,6 +13,13 @@ var cursors;
 class SnakeGame extends Phaser.Scene {
   // Game code from https://labs.phaser.io/view.html?src=src\games\snake\part7.js
 
+  action: number = 0;
+  done: boolean = false;
+  mode: string = 'bot';
+  reward: number = 0;
+  seed: number;
+  random = new Phaser.Math.RandomDataGenerator();
+
   preload() {
     this.load.image('block', './src/envs/arcade/snake/block.png');
   }
@@ -20,14 +27,18 @@ class SnakeGame extends Phaser.Scene {
   create() {
     food = new Food(this, 3, 4);
 
-    snake = new Snake(this, 8, 8);
+    snake = new SnakeBody(this, 8, 8); // change to random initialisation
 
-    //  Create our keyboard controls
+    // Create keyboard controls
+    if (this.mode == 'interactive') {
     cursors = this.input.keyboard.createCursorKeys();
+  }
   }
 
   update(time, delta) {
     if (!snake.alive) {
+      this.done = true;
+      this.reward--;
       return;
     }
 
@@ -38,6 +49,7 @@ class SnakeGame extends Phaser.Scene {
      * the LEFT cursor, it ignores it, because the only valid directions you
      * can move in at that time is up and down.
      */
+    if (this.mode == 'interactive') {
     if (cursors.left.isDown) {
       snake.faceLeft();
     } else if (cursors.right.isDown) {
@@ -47,12 +59,24 @@ class SnakeGame extends Phaser.Scene {
     } else if (cursors.down.isDown) {
       snake.faceDown();
     }
+    } else {
+      if (this.action == 0) {
+        snake.faceLeft();
+      } else if (this.action == 1) {
+        snake.faceUp();
+      } else if (this.action == 2) {
+        snake.faceRight();
+      } else if (this.action == 3) {
+        snake.faceDown();
+      }
+    }
 
     if (snake.update(time)) {
       //  If the snake updated, we need to check for collision against food
 
       if (snake.collideWithFood(food)) {
         this.repositionFood();
+        this.reward++;
       }
     }
   }
@@ -124,7 +148,7 @@ const config = {
   backgroundColor: '#f4e542',
 };
 
-export class StarfallGame extends Phaser.Game implements Env {
+export class Snake extends Phaser.Game {
   constructor(config) {
     super(config);
   }
@@ -168,15 +192,32 @@ export class StarfallGame extends Phaser.Game implements Env {
 
   // }
 
-  // seed(seed: number): void{
-
-  // }
+  seed(seed: number): void {
+    this.scene.scenes.forEach(s => {
+      s.seed = seed;
+      s.random.sow(seed.toString());
+    });
+  }
 
   private _getObs() {
     return tf.browser.fromPixels(this.canvas);
   }
+
+  private _setAction(action: number): void {
+    this.scene.scenes[0].action = action;
+  }
+
+  private _checkDone(): boolean {
+    return this.scene.scenes[0].done;
+  }
+
+  private _getReward(): number {
+    let rew = this.scene.scenes[0].reward;
+    this.scene.scenes[0].reward = 0;
+    return rew;
+  }
 }
 
 window.onload = () => {
-  var game = new StarfallGame(config);
+  var game = new Snake(config);
 };
