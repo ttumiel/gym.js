@@ -31,8 +31,8 @@ class SnakeGame extends Phaser.Scene {
 
     // Create keyboard controls
     if (this.mode == 'interactive') {
-    cursors = this.input.keyboard.createCursorKeys();
-  }
+      cursors = this.input.keyboard.createCursorKeys();
+    }
   }
 
   update(time, delta) {
@@ -50,15 +50,15 @@ class SnakeGame extends Phaser.Scene {
      * can move in at that time is up and down.
      */
     if (this.mode == 'interactive') {
-    if (cursors.left.isDown) {
-      snake.faceLeft();
-    } else if (cursors.right.isDown) {
-      snake.faceRight();
-    } else if (cursors.up.isDown) {
-      snake.faceUp();
-    } else if (cursors.down.isDown) {
-      snake.faceDown();
-    }
+      if (cursors.left.isDown) {
+        snake.faceLeft();
+      } else if (cursors.right.isDown) {
+        snake.faceRight();
+      } else if (cursors.up.isDown) {
+        snake.faceUp();
+      } else if (cursors.down.isDown) {
+        snake.faceDown();
+      }
     } else {
       if (this.action == 0) {
         snake.faceLeft();
@@ -149,11 +149,12 @@ const config = {
 };
 
 export class Snake extends Phaser.Game {
+  // implements Env {
   constructor(config) {
     super(config);
   }
 
-    /**
+  /**
    * @property action_space Possible Actions:
    * 0: left
    * 1: up
@@ -166,7 +167,7 @@ export class Snake extends Phaser.Game {
   /**
    * @property observation_space The pixel values of the game (640x480).
    */
-  observation_space: Space = new Discrete([640,480]);
+  observation_space: Space = new Discrete([640, 480, 3]);
 
   /**
    * @property reward_range the value of eating the food
@@ -176,17 +177,57 @@ export class Snake extends Phaser.Game {
    */
   reward_range: Space = new Discrete([3]);
 
-  // step(action: number): []{
+  renderDisplay: boolean = true;
+  done: boolean = false;
+  info: {} = {
+    observationSpace: this.observation_space.toString(),
+    rewardSpace: this.reward_range.toString(),
+    actionSpace: this.action_space.toString(),
+    actionDesc: {
+      0: "left",
+      1: "right",
+      2: "up",
+      3: "down"
+    }
+  }
 
-  // }
+  step(time: number, delta: number){ //, action: number
+    if (this.renderDisplay){
+      super.step(time, delta);
+    } else {
+      super.headlessStep(time, delta);
+    }
 
-  // reset(): number[]{
+    let action = this.action_space.sample();
+    console.assert(action>=0 && action<=3, "The action you made is not in the action space!");
 
-  // }
+    this.done = this._checkDone();
+    if (this.done == true){
+      console.warn("You've called 'step()' although the environment has already returned 'done=true'. You should always call 'reset()' once you receive 'done=true'")
+    }
+    this._setAction(action);
 
-  // render(): void {
+    this.observation_space.set(this._getObs());
+    let reward = this._getReward();
 
-  // }
+    if (reward != 0){
+      console.log("Reward received " + reward.toString());
+    }
+
+    // this.observation_space.get().print();
+
+    return [this.observation_space.get(), reward, this.done, this.info];
+  }
+
+  reset(): tf.Tensor{
+    this.start();
+    this.observation_space.set(this._getObs());
+    return this.observation_space.get();
+  }
+
+  render(value: boolean=true): void {
+    this.renderDisplay = value;
+  }
 
   // close(): void{
 

@@ -112,15 +112,11 @@ export default class SnakeBody extends Phaser.Scene {
     var hitBody = Phaser.Actions.GetFirst(this.body.getChildren(), { x: this.head.x, y: this.head.y }, 1);
 
     if (hitBody) {
-      console.log('dead');
-
       this.alive = false;
-
       return false;
     } else {
       //  Update the timer ready for the next movement
       this.moveTime = time + this.speed;
-
       return true;
     }
   }
