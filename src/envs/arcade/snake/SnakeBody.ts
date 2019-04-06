@@ -5,7 +5,7 @@ var DOWN = 1;
 var LEFT = 2;
 var RIGHT = 3;
 
-export default class Snake extends Phaser.Scene {
+export default class SnakeBody extends Phaser.Scene {
   headPosition;
   body;
   head;
