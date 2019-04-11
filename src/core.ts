@@ -1,4 +1,5 @@
 import Space from './spaces/space';
+import * as tf from "@tensorflow/tfjs";
 
 /**
  * This class is derived from OpenAI's Gym (https://github.com/openai/gym)
@@ -26,8 +27,8 @@ interface Env {
   observation_space: Space;
   reward_range: Space;
 
-  step(action: number): [];
-  reset(): number[];
+  step(action: number): [tf.Tensor, number, boolean, {}];
+  reset(): tf.Tensor;
   render(): void;
   close(): void;
   seed(seed: number): void;
