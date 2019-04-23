@@ -148,9 +148,8 @@ const config = {
   backgroundColor: '#f4e542',
 };
 
-export class Snake extends Phaser.Game {
-  // implements Env {
-  constructor(config) {
+export class Snake extends Phaser.Game implements Env {
+  constructor(config: GameConfig) {
     super(config);
   }
 
@@ -179,7 +178,8 @@ export class Snake extends Phaser.Game {
 
   renderDisplay: boolean = true;
   done: boolean = false;
-  info: {} = {
+  verbose: boolean = true;
+  readonly info: {} = {
     observationSpace: this.observation_space.toString(),
     rewardSpace: this.reward_range.toString(),
     actionSpace: this.action_space.toString(),
@@ -191,32 +191,36 @@ export class Snake extends Phaser.Game {
     }
   }
 
-  step(time: number, delta: number){ //, action: number
+  step(action: number): [tf.Tensor, number, boolean, {}];
+  step(time: number, delta: number, action: number): [tf.Tensor, number, boolean, {}];
+  step(time: number, delta?: number, action?: number): [tf.Tensor, number, boolean, {}]{
+    let info = {};
+
     if (this.renderDisplay){
       super.step(time, delta);
     } else {
       super.headlessStep(time, delta);
     }
 
-    let action = this.action_space.sample();
+    action = this.action_space.sample();
     console.assert(action>=0 && action<=3, "The action you made is not in the action space!");
 
-    this.done = this._checkDone();
     if (this.done == true){
       console.warn("You've called 'step()' although the environment has already returned 'done=true'. You should always call 'reset()' once you receive 'done=true'")
     }
+    this.done = this._checkDone();
     this._setAction(action);
 
     this.observation_space.set(this._getObs());
     let reward = this._getReward();
 
-    if (reward != 0){
-      console.log("Reward received " + reward.toString());
+    if (reward != 0 && this.verbose){
+      console.info("Reward received: " + reward.toString());
     }
 
     // this.observation_space.get().print();
 
-    return [this.observation_space.get(), reward, this.done, this.info];
+    return [this.observation_space.get(), reward, this.done, info];
   }
 
   reset(): tf.Tensor{
@@ -229,9 +233,9 @@ export class Snake extends Phaser.Game {
     this.renderDisplay = value;
   }
 
-  // close(): void{
-
-  // }
+  close(removeCanvas: boolean=false): void{
+    this.destroy(removeCanvas);
+  }
 
   seed(seed: number): void {
     this.scene.scenes.forEach(s => {
