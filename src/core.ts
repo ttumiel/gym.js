@@ -28,6 +28,7 @@ interface Env {
   reward_range: Space;
 
   step(action: number): [tf.Tensor, number, boolean, {}];
+  step(time: number, delta: number, action: number): [tf.Tensor, number, boolean, {}];
   reset(): tf.Tensor;
   render(): void;
   close(): void;
