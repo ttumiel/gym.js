@@ -87,6 +87,38 @@ class FrozenLake implements Env {
     console.log(this.observation_space.get().dataSync());
   }
 
+  render_html(): string{
+    return `
+    <style>.currentState{background-color: red}</style>
+    <div id="environment">
+      <div>
+        <span class="currentState">${this.map[0][0]}</span>
+        <span>${this.map[0][1]}</span>
+        <span>${this.map[0][2]}</span>
+        <span>${this.map[0][3]}</span>
+      </div>
+      <div>
+        <span>${this.map[1][0]}</span>
+        <span>${this.map[1][1]}</span>
+        <span>${this.map[1][2]}</span>
+        <span>${this.map[1][3]}</span>
+      </div>
+      <div>
+        <span>${this.map[2][0]}</span>
+        <span>${this.map[2][1]}</span>
+        <span>${this.map[2][2]}</span>
+        <span>${this.map[2][3]}</span>
+      </div>
+      <div>
+        <span>${this.map[3][0]}</span>
+        <span>${this.map[3][1]}</span>
+        <span>${this.map[3][2]}</span>
+        <span>${this.map[3][3]}</span>
+      </div>
+    </div>
+    `
+  }
+
   close(): void { }
 
   seed(seed: number): void {
