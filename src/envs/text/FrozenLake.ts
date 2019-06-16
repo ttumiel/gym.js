@@ -25,18 +25,20 @@ class FrozenLake implements Env {
     this.action_space = new Discrete([4]);
     this.reward_range = new Discrete([2]);
     this.isSlippery = isSlippery;
-    this.mapSize = mapSize;
     this.p = p;
     this.done = false;
     this.row = 0;
     this.col = 0;
 
-    this.observation_space = new Discrete([mapSize * mapSize])
-    this.map = [["S", "F", "F", "F"],
-    ["F", "H", "F", "H"],
-    ["F", "F", "F", "H"],
-    ["H", "F", "F", "G"]]
+    if (mapSize == 8) {
+      this.mapSize = mapSize;
+      this.map = MAPS["8x8"];
+    } else {
+      this.mapSize = 4;
+      this.map = MAPS["4x4"];
+    }
 
+    this.observation_space = new Discrete([this.mapSize * this.mapSize])
     //this.generateRandomMap(mapSize, p);
     this.observation_space.set(tf.tensor([0]));
   }
@@ -210,7 +212,26 @@ enum Direction {
   Down
 }
 
-function decodeAction(action: number): string{
+let MAPS = {
+  "4x4":[
+    ["S", "F", "F", "F"],
+    ["F", "H", "F", "H"],
+    ["F", "F", "F", "H"],
+    ["H", "F", "F", "G"]
+  ],
+  "8x8":[
+    ["S","F","F","F","F","F","F","F"],
+    ["F","F","F","F","F","F","F","F"],
+    ["F","F","F","H","F","F","F","F"],
+    ["F","F","F","F","F","H","F","F"],
+    ["F","F","F","H","F","F","F","F"],
+    ["F","H","H","F","F","F","H","F"],
+    ["F","H","F","F","H","F","H","F"],
+    ["F","F","F","H","F","F","F","G"]
+  ] 
+}
+
+function decodeAction(action: number): string {
   if (action == Direction.Up) return "Up";
   if (action == Direction.Right) return "Right";
   if (action == Direction.Left) return "Left";
