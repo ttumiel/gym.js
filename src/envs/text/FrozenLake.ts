@@ -148,6 +148,29 @@ class FrozenLake implements Env {
   }
 }
 
+window.onload = () => {
+  let testLen = 15;
+  let done = false;
+
+  var game = new FrozenLake(4, 0.8, false);
+  game.reset();
+
+  for (let i=0; i<testLen; i++){
+    if (!done){
+      game.render();
+      let action = game.action_space.sample();
+      console.log(decodeAction(action));
+      let stepInfo = game.step(action);
+      done = stepInfo[2];
+    }else{
+      game.reset();
+      done = false;
+      console.log("Game terminated, resetting.");
+      console.log("---------------------------");
+    }
+  }
+};
+
 enum Direction {
   Up,
   Right,
