@@ -82,6 +82,8 @@ class FrozenLake implements Env {
   reset(): tf.Tensor {
     this.done = false;
     this.observation_space.set(tf.tensor([0]));
+    this.row = 0;
+    this.col = 0;
     return this.observation_space.get();
   }
 
@@ -89,36 +91,16 @@ class FrozenLake implements Env {
     console.log(this.observation_space.get().dataSync());
   }
 
-  render_html(): string{
-    return `
-    <style>.currentState{background-color: red}</style>
-    <div id="environment">
-      <div>
-        <span class="currentState">${this.map[0][0]}</span>
-        <span>${this.map[0][1]}</span>
-        <span>${this.map[0][2]}</span>
-        <span>${this.map[0][3]}</span>
-      </div>
-      <div>
-        <span>${this.map[1][0]}</span>
-        <span>${this.map[1][1]}</span>
-        <span>${this.map[1][2]}</span>
-        <span>${this.map[1][3]}</span>
-      </div>
-      <div>
-        <span>${this.map[2][0]}</span>
-        <span>${this.map[2][1]}</span>
-        <span>${this.map[2][2]}</span>
-        <span>${this.map[2][3]}</span>
-      </div>
-      <div>
-        <span>${this.map[3][0]}</span>
-        <span>${this.map[3][1]}</span>
-        <span>${this.map[3][2]}</span>
-        <span>${this.map[3][3]}</span>
-      </div>
-    </div>
-    `
+  renderHTML(): string {
+    let currentObs = this.observation_space.get().dataSync()[0];
+    return "<style>.currentState{background-color: red}</style>" +
+      this.map.map((row, rowId) => (
+        "<div>" + row.map((col, colId) => (
+          "<span" +
+          ((colId + (rowId * this.mapSize) == currentObs) ? " class=\"currentState\"" : "") +
+          ">" + col + "</span>"
+        )).join("") + "</div>"
+      )).join("");
   }
 
   close(): void { }
@@ -178,31 +160,32 @@ class FrozenLake implements Env {
   // }
 
   private _toObs(): tf.Tensor {
-    return tf.tensor([this.row * 4 + this.col]);
+    return tf.tensor([this.row * this.mapSize + this.col]);
   }
 }
 
 window.onload = () => {
-  let testLen = 15;
+  let game = new FrozenLake(8, 0.8, false);
+  game.reset();
   let done = false;
 
-  var game = new FrozenLake(4, 0.8, false);
-  game.reset();
 
-  for (let i=0; i<testLen; i++){
-    if (!done){
-      game.render();
+  let outerEnv = document.getElementById("game");
+  window.setInterval(() => {
+    if (!done) {
+      // game.render();
+      outerEnv.innerHTML = game.renderHTML();
       let action = game.action_space.sample();
       console.log(decodeAction(action));
       let stepInfo = game.step(action);
       done = stepInfo[2];
-    }else{
+    } else {
       game.reset();
       done = false;
       console.log("Game terminated, resetting.");
       console.log("---------------------------");
     }
-  }
+  }, 1000);
 };
 
 enum Direction {
