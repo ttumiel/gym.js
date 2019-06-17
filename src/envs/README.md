@@ -13,6 +13,12 @@ Arcade-type game environments.
 __Algorithmic__
 
 
+__Toy Text__
+
+Simple test environments.
+
+- FrozenLake
+
 
 ## Creating a New Environment
 
