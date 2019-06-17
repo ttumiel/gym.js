@@ -109,7 +109,7 @@ class FrozenLake implements Env {
 
   }
 
-  move(row: number, col: number, action: number): [number, number] {
+  private move(row: number, col: number, action: number): [number, number] {
     if (this.isSlippery && Math.random() > 1 / 3) {
       action = this.action_space.sample();
     }
@@ -130,11 +130,9 @@ class FrozenLake implements Env {
     return [row, col];
   }
 
-  // generateRandomMap(size = 8, p = 0.8) {
+  // generateRandomMap(size = 8, p = 0.8) {}
 
-  // }
-
-  inMap(row: number, col: number, action: number) {
+  private inMap(row: number, col: number, action: number) {
     if (row == 0 && action == Direction.Up) {
       return false;
     }
@@ -149,15 +147,6 @@ class FrozenLake implements Env {
     }
     return true;
   }
-
-  // private _encodeMap2Tensor(): tf.Tensor{
-  //   // Turn the text based map into a tensor
-  //   /**
-  //    * 0 - S
-  //    * 1 - F
-  //    * 2 - G
-  //    */
-  // }
 
   private _toObs(): tf.Tensor {
     return tf.tensor([this.row * this.mapSize + this.col]);
