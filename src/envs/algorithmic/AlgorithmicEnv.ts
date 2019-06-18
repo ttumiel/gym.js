@@ -96,6 +96,31 @@ abstract class AlgorithmicEnv implements Env {
   
   // Return the current observation according to the cursor
   abstract toObs(): tf.Tensor; 
+
+  // Set the target from the input data
+  abstract setTarget(input_data:any):void;
+
+  // Generate the target data
+  abstract genInputData(size:number):any;
 }
 
-export default AlgorithmicEnv;
+abstract class TapeAlgorithmicEnv extends AlgorithmicEnv{
+  MOVEMENTS = ["Left", "Right"];
+  cursor:number;
+
+  move(action: tf.Tensor): void{
+    if(action[0] == 0){
+      this.cursor -= 1;
+    }else if (action[0] == 1){
+      this.cursor += 1;
+    }
+}
+
+  toObs(): tf.Tensor{
+    return this.target[this.cursor];
+  }
+
+  genInputData(size:number):any{
+    return randint(this.base, undefined, size)
+  }
+}
