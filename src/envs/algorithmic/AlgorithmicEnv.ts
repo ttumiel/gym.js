@@ -124,3 +124,39 @@ abstract class TapeAlgorithmicEnv extends AlgorithmicEnv{
     return randint(this.base, undefined, size)
   }
 }
+
+abstract class GridAlgorithmicEnv extends AlgorithmicEnv{
+  constructor(rows:number, base:number=10) {
+    super(base);
+    this.rows = rows;
+  }
+
+  MOVEMENTS = ["Up", "Right", "Down", "Left"];
+  rows: number;
+  row: number;
+  col: number;
+
+  move(action: tf.Tensor): void{
+    // TODO: Out of bounds check
+    if(action[0] == 0){
+      this.row -= 1;
+    }else if (action[0] == 1){
+      this.col += 1;
+    }else if (action[0] == 2){
+      this.row += 1;
+    }else if (action[0] == 3){
+      this.col -= 1;
+    }
+    this.cursor = this.row*this.base + this.col;
+  }
+  
+  toObs(): tf.Tensor{
+    return this.target[this.cursor];
+  }
+
+  genInputData(size:number):any{
+    return range(this.rows).map(()=>randint(this.base, undefined, size));
+  }
+}
+
+export {TapeAlgorithmicEnv, GridAlgorithmicEnv};
