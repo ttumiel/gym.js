@@ -1,7 +1,7 @@
 import Env from "../../core";
 import Discrete from "../../spaces/discrete";
 import * as tf from '@tensorflow/tfjs';
-import { range } from "../../utils";
+import { range, randint, toNumLike } from "../../utils";
 
 /**
  * Environment for algorithms.
@@ -21,24 +21,23 @@ abstract class AlgorithmicEnv implements Env {
     this.base = base;
     this.action_space = new Discrete([this.MOVEMENTS.length, 2, this.base]);
     this.observation_space = new Discrete([this.base + 1]);
-    this.done = false;
-    this.reward = 0.0;
     this.charmap = range(base).map(i=>String(i)).push(" ");
-    this.cursor = 0;
     // this.seed();
-    // this.reset();
+    this.reset();
   }
 
   action_space: Discrete;
   observation_space: Discrete;
   reward_range: Discrete;
-  base:number;
-  MOVEMENTS:number[];
+  base: number;
+  MOVEMENTS: string[];
+  MIN_LENGTH: number = 5;
   charmap: string[]
   done: boolean;
   reward: number;
   target: [];
   cursor: number;
+  inputData: any;
 
   step(action: tf.Tensor): [tf.Tensor, number, boolean, {}] {
     // Check that action is in action space!
@@ -65,6 +64,9 @@ abstract class AlgorithmicEnv implements Env {
     this.reward = 0.0;
     this.cursor = 0;
     this.observation_space.set(this.toObs());
+    let targetLength = toNumLike(randint(3)) + this.MIN_LENGTH;
+    this.inputData = this.genInputData(targetLength);
+    this.setTarget(this.inputData);
     return this.observation_space.get();
   }
 
@@ -114,8 +116,8 @@ abstract class TapeAlgorithmicEnv extends AlgorithmicEnv{
     }else if (action[0] == 1){
       this.cursor += 1;
     }
-}
-
+  }
+  
   toObs(): tf.Tensor{
     return this.target[this.cursor];
   }
