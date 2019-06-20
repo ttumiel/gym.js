@@ -55,7 +55,67 @@ export default class Discrete implements Space {
   //   return this.sampleSpace.arraySync().includes(action);
   // }
 
-  toString() {
+  toString():string {
+    return this.type + ": " + this.shape.toString();
+  }
+}
+
+export class DiscreteTuple implements Space {
+  shape: number[];
+  type: string;
+  sampleSpace: Discrete[];
+  seedValue: number;
+  length: number;
+
+  constructor(shape: number[]) {
+    this.shape = shape;
+    this.type = 'DiscreteTuple';
+    this.length = Number(
+      tf
+        .tensor(this.shape)
+        .prod()
+        .arraySync()
+        .valueOf(),
+    );
+    this.setSampleSpace(shape);
+  }
+
+  setSampleSpace(value: any){
+    this.sampleSpace = value.map(i => new Discrete([i]));
+  }
+
+  /**
+   * Sample a random value from this `Space`.
+   *
+   * @returns {number[]} A tuple of random samples.
+   */
+  sample(): number[] {
+    return toArrayLike(this.sampleSpace.map( ss => ss.sample()));
+  }
+
+  // Currently unused
+  seed(seed: number): void {
+    this.seedValue = seed;
+  }
+
+  // These methods (get and set) are for observation spaces.
+  // They shouldn't be implemented if the class 
+  // is only used for action spaces
+  set(space: tf.Tensor): void{
+    // assert contains(space)
+    this.setSampleSpace(space.arraySync());
+  }
+
+  get(): tf.Tensor{
+    return tf.tensor(toArrayLike(this.sampleSpace.map(i => i)));
+  }
+
+  // contains(action: number){
+  //   // if(typeof this.sampleSpace.arraySync() == number) return action == this.sampleSpace.arraySync();
+  //   return this.sampleSpace.arraySync().includes(action);
+  // }
+
+  toString():string {
     return this.type + ": " + this.shape.toString();
   }
 }
