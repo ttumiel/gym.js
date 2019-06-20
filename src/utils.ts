@@ -24,8 +24,8 @@ function toNumLike(obj:any):number{
 }
 
 function range(s1:number, s2?:number): number[]{
-  if (s2 === undefined) return (new Array(s1 - 1)).fill(undefined).map((_,i) => i);
-  return (new Array(s2 - s1 - 1)).fill(undefined).map((_,i) => i + s1);
+  if (s2 === undefined) return (new Array(s1)).fill(undefined).map((_,i) => i);
+  return (new Array(s2 - s1)).fill(undefined).map((_,i) => i + s1);
 }
 
 function randint(s1:number, s2?:number, n:number=1): number|number[]{
