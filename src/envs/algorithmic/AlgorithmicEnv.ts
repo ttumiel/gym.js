@@ -87,14 +87,22 @@ abstract class AlgorithmicEnv implements Env {
   }
 
   render(): void {
-    console.log("Target:", this.charmap.join(""));
-    console.log("Cursor Target:", this.getStrTgt());
-    // console.log("Movement:", this.MOVEMENTS[])
-    // Store last action to implement other functionality
+    console.log("-".repeat(20));
+    console.log("Input:", this.inputData.map(i => this.charmap[i]).join(""));
+    console.log("Target:", this.target.map(i => this.charmap[i]).join(""));
+    console.log("Predictions:", this.agentActions.map(i => i===-1 ? "_" : this.charmap[i]).join(""));
+    console.log("Obs:", this.getStrObs());
+    console.log("-".repeat(20));
   }
 
   renderHTML(): string {
-    return ``
+    return `
+    <style>.currentState{background-color: red}</style>
+    <div class="game-input"><span${this.inputData.map((v,i) => (i==this.cursor ? ' class="currentState">' : ">") 
+                                                          + this.charmap[v]).join("</span><span")}</span></div>
+    <div class="game-target">${this.target.map(i => this.charmap[i]).join("")}</div>
+    <div class="agent-preds">${this.agentActions.map(i => "<span>" + (i===-1 ? "_" : this.charmap[i])+"</span>").join("")}</div>
+    `
   }
 
   close(): void {}
