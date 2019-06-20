@@ -201,4 +201,10 @@ abstract class GridAlgorithmicEnv extends AlgorithmicEnv{
   }
 }
 
-export {TapeAlgorithmicEnv, GridAlgorithmicEnv};
+function decodeAction(action: actionSpace, movements: string[]): {}{
+  return {"Movement": movements[action[0]],
+         "Write": Boolean(action[1]).toString(),
+         "Character": String(action[2])};
+}
+
+export {TapeAlgorithmicEnv, GridAlgorithmicEnv, decodeAction};
