@@ -1,7 +1,9 @@
 import Env from "../../core";
-import Discrete from "../../spaces/discrete";
+import Discrete, {DiscreteTuple} from "../../spaces/discrete";
 import * as tf from '@tensorflow/tfjs';
-import { range, randint, toNumLike } from "../../utils";
+import { range, randint, toNumLike, toArrayLike } from "../../utils";
+
+declare type actionSpace = Discrete[] | number | number[];
 
 /**
  * Environment for algorithms.
@@ -11,21 +13,26 @@ import { range, randint, toNumLike } from "../../utils";
  * Action: A tuple containing [
  *  the move over the input,
  *  whether to write to the output,
- *  the prediction 
+ *  the predicted character 
  * ]
  * 
  * Observations: The character under the read cursor.
+ *  Equivalent to `base` + 1.
  */
 abstract class AlgorithmicEnv implements Env {
-  constructor(base:number=10) {
+  constructor(movements:string[], base:number=10) {
     this.base = base;
-    this.action_space = new Discrete([this.MOVEMENTS.length, 2, this.base]);
+    this.MOVEMENTS = movements;
+    // this.action_space; // TODO: change to discrete tuple space
+    this.tuple_action_space = new DiscreteTuple([this.MOVEMENTS.length, 2, this.base]);
     this.observation_space = new Discrete([this.base + 1]);
-    this.charmap = range(base).map(i=>String(i)).push(" ");
+    this.charmap = range(base).map(i=>String(i)); // range*rows for grid env
+    this.charmap.push("_");
     // this.seed();
     this.reset();
   }
 
+  tuple_action_space: DiscreteTuple;
   action_space: Discrete;
   observation_space: Discrete;
   reward_range: Discrete;
@@ -38,20 +45,28 @@ abstract class AlgorithmicEnv implements Env {
   target: [];
   cursor: number;
   inputData: any;
+  agentActions: number[];
+  targetLength: number;
 
-  step(action: tf.Tensor): [tf.Tensor, number, boolean, {}] {
+  step(action: actionSpace): [tf.Tensor, number, boolean, {}] {
     // Check that action is in action space!
 
     if (!this.done){
-      this.move(action);
-      this.observation_space.set(this.toObs());
 
-      if (action[1] === 1 && action[2] === this.target[this.cursor]){
+      // Write char
+      if (action[1] === 1){
+        this.agentActions[this.cursor] = action[2];
+        if (action[2] === this.target[this.cursor]){
         this.reward = 1;
       }else{
         this.done = true;
         this.reward = -0.5;
       }
+      }
+
+      // Move cursor
+      this.move(action);
+      this.observation_space.set(this.toObs());
 
     }else{
       console.warn("The environment has returned `done=True`. You should call `reset` before continuing.");
@@ -60,13 +75,14 @@ abstract class AlgorithmicEnv implements Env {
   }
 
   reset(): tf.Tensor {
+    this.targetLength = toNumLike(randint(3)) + this.MIN_LENGTH;
+    this.inputData = this.genInputData(this.targetLength);
+    this.setTarget(this.inputData.slice());
     this.done = false;
     this.reward = 0.0;
     this.cursor = 0;
+    this.agentActions = range(this.targetLength).map(()=>-1);
     this.observation_space.set(this.toObs());
-    let targetLength = toNumLike(randint(3)) + this.MIN_LENGTH;
-    this.inputData = this.genInputData(targetLength);
-    this.setTarget(this.inputData);
     return this.observation_space.get();
   }
 
@@ -84,17 +100,17 @@ abstract class AlgorithmicEnv implements Env {
   close(): void {}
   seed(seed: number): void {}
 
-  getStrObs():string{ //??
-    let ret = this.toObs().arraySync()[0];
+  getStrObs():string{
+    let ret = Number(this.toObs());
     return this.charmap[ret];
   }
 
-  getStrTgt():string{
-    return this.charmap[this.cursor];
-  }
+  // getStrTgt():string{
+  //   return this.charmap[this.cursor];
+  // }
 
   // Move the cursor according to the action
-  abstract move(action: tf.Tensor): void; 
+  abstract move(action: actionSpace): void; 
   
   // Return the current observation according to the cursor
   abstract toObs(): tf.Tensor; 
