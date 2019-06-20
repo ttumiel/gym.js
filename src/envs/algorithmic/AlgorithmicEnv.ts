@@ -130,24 +130,40 @@ abstract class AlgorithmicEnv implements Env {
   abstract genInputData(size:number):any;
 }
 
+/**
+ * A 1 dimensional algorithmic env.
+ * 
+ * Environment observations wrap around tape.
+ */
 abstract class TapeAlgorithmicEnv extends AlgorithmicEnv{
-  MOVEMENTS = ["Left", "Right"];
+  MOVEMENTS: string[];
   cursor:number;
 
-  move(action: tf.Tensor): void{
+  constructor(base: number){
+    super(["Left", "Right"], base);
+  }
+
+  move(action: actionSpace): void{
+    if (action[0]==0 && this.cursor<=0){
+      this.cursor = this.targetLength;
+    }else if (action[0]==1 && this.cursor>=this.targetLength){
+      this.cursor = 0;
+    }else{
     if(action[0] == 0){
       this.cursor -= 1;
     }else if (action[0] == 1){
       this.cursor += 1;
     }
   }
+  }
   
-  toObs(): tf.Tensor{
-    return this.target[this.cursor];
+  toObs(): any{
+    if (this.cursor == this.targetLength) return this.base;
+    return this.inputData[this.cursor];
   }
 
   genInputData(size:number):any{
-    return randint(this.base, undefined, size)
+    return randint(this.base, undefined, size);
   }
 }
 
