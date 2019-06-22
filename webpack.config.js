@@ -1,7 +1,8 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/envs/arcade/snake/SnakeGame.ts',
+  // Change the entry point to run a different environment
+  entry: './src/envs/text/FrozenLake.ts',
   module: {
     rules: [
       {
@@ -16,7 +17,9 @@ module.exports = {
   },
   output: {
     filename: 'app.js',
-    path: path.resolve(__dirname, 'lib')
+    path: path.resolve(__dirname, 'lib'),
+    libraryTarget: 'var',
+    library: 'Env'
   },
   mode: 'development'
 };

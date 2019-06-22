@@ -262,6 +262,8 @@ export default class Snake extends Phaser.Game implements Env {
   }
 }
 
-window.onload = () => {
+function demo() {
   var game = new Snake(config);
-};
+}
+
+module.exports.demo = demo;

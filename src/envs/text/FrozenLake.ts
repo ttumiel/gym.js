@@ -153,7 +153,7 @@ export default class FrozenLake implements Env {
   }
 }
 
-window.onload = () => {
+function demo():void {
   let game = new FrozenLake(8, 0.8, false);
   game.reset();
   let done = false;
@@ -175,7 +175,9 @@ window.onload = () => {
       console.log("---------------------------");
     }
   }, 1000);
-};
+}
+
+module.exports.demo = demo;
 
 enum Direction {
   Up,
