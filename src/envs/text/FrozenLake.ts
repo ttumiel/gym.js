@@ -20,7 +20,7 @@ import * as tf from '@tensorflow/tfjs';
  *  1 - If reach target 'G'
  *  0 - Otherwise
  */
-class FrozenLake implements Env {
+export default class FrozenLake implements Env {
   constructor(mapSize: number = 4, p: number = 0.8, isSlippery: boolean = true) {
     this.action_space = new Discrete([4]);
     this.reward_range = new Discrete([2]);

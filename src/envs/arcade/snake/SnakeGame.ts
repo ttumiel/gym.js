@@ -148,8 +148,7 @@ const config = {
   backgroundColor: '#f4e542',
 };
 
-export class Snake extends Phaser.Game implements Env {
-  constructor(config: GameConfig) {
+export default class Snake extends Phaser.Game implements Env {
     super(config);
   }
 
