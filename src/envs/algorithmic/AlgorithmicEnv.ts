@@ -165,44 +165,46 @@ abstract class TapeAlgorithmicEnv extends AlgorithmicEnv {
   }
 }
 
-abstract class GridAlgorithmicEnv extends AlgorithmicEnv{
-  constructor(rows:number, base:number=10) {
-    super(base);
+/**
+ * A 2 dimensional algorithmic env.
+ * Not tested yet.
+ */
+abstract class GridAlgorithmicEnv extends AlgorithmicEnv {
+  constructor(rows: number, base: number = 10) {
+    super(['Up', 'Right', 'Down', 'Left'], base);
     this.rows = rows;
   }
 
-  MOVEMENTS = ["Up", "Right", "Down", "Left"];
+  MOVEMENTS: string[];
   rows: number;
   row: number;
   col: number;
 
-  move(action: tf.Tensor): void{
+  move(action: actionSpace): void {
     // TODO: Out of bounds check
-    if(action[0] == 0){
+    if (action[0] === 0) {
       this.row -= 1;
-    }else if (action[0] == 1){
+    } else if (action[0] === 1) {
       this.col += 1;
-    }else if (action[0] == 2){
+    } else if (action[0] === 2) {
       this.row += 1;
-    }else if (action[0] == 3){
+    } else if (action[0] === 3) {
       this.col -= 1;
     }
-    this.cursor = this.row*this.base + this.col;
+    this.cursor = this.row * this.base + this.col;
   }
   
-  toObs(): tf.Tensor{
-    return this.target[this.cursor];
+  toObs(): tf.Tensor {
+    return this.inputData[this.cursor];
   }
 
-  genInputData(size:number):any{
-    return range(this.rows).map(()=>randint(this.base, undefined, size));
+  genInputData(size: number): any {
+    return range(this.rows).map(() => randint(this.base, undefined, size));
   }
 }
 
-function decodeAction(action: actionSpace, movements: string[]): {}{
-  return {"Movement": movements[action[0]],
-         "Write": Boolean(action[1]).toString(),
-         "Character": String(action[2])};
+function decodeAction(action: actionSpace, movements: string[]): {} {
+  return { Movement: movements[action[0]], Write: Boolean(action[1]).toString(), Character: String(action[2]) };
 }
 
-export {TapeAlgorithmicEnv, GridAlgorithmicEnv, decodeAction};
+export { TapeAlgorithmicEnv, GridAlgorithmicEnv, decodeAction };
