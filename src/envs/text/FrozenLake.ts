@@ -1,6 +1,6 @@
-import Env from "../../core";
-import Discrete from "../../spaces/discrete";
-import Space from "../../spaces/space";
+import Env from '../../core';
+import Discrete from '../../spaces/discrete';
+import Space from '../../spaces/space';
 import * as tf from '@tensorflow/tfjs';
 
 /**
@@ -30,15 +30,15 @@ export default class FrozenLake implements Env {
     this.row = 0;
     this.col = 0;
 
-    if (mapSize == 8) {
+    if (mapSize === 8) {
       this.mapSize = mapSize;
-      this.map = MAPS["8x8"];
+      this.map = MAPS['8x8'];
     } else {
       this.mapSize = 4;
-      this.map = MAPS["4x4"];
+      this.map = MAPS['4x4'];
     }
 
-    this.observation_space = new Discrete([this.mapSize * this.mapSize])
+    this.observation_space = new Discrete([this.mapSize * this.mapSize]);
     //this.generateRandomMap(mapSize, p);
     this.observation_space.set(tf.tensor([0]));
   }
@@ -65,18 +65,17 @@ export default class FrozenLake implements Env {
       let currentState = this.map[this.row][this.col];
       this.observation_space.set(this._toObs());
 
-      if (currentState == "H") {
+      if (currentState === 'H') {
         this.done = true;
         // reward = -1;
-      }
-      else if (currentState == "G") {
+      } else if (currentState === 'G') {
         this.done = true;
         reward = 1;
       }
     } else {
-      console.warn("This environment has terminated. You should call `reset` before continuing.");
+      console.warn('This environment has terminated. You should call `reset` before continuing.');
     }
-    return [this.observation_space.get(), reward, this.done, {}]
+    return [this.observation_space.get(), reward, this.done, {}];
   }
 
   reset(): tf.Tensor {
@@ -103,27 +102,25 @@ export default class FrozenLake implements Env {
       )).join("");
   }
 
-  close(): void { }
+  close(): void {}
 
-  seed(seed: number): void {
-
-  }
+  seed(seed: number): void {}
 
   private move(row: number, col: number, action: number): [number, number] {
     if (this.isSlippery && Math.random() > 1 / 3) {
       action = this.action_space.sample();
     }
     if (this.inMap(row, col, action)) {
-      if (action == Direction.Up) {
+      if (action === Direction.Up) {
         row -= 1;
       }
-      if (action == Direction.Down) {
+      if (action === Direction.Down) {
         row += 1;
       }
-      if (action == Direction.Right) {
+      if (action === Direction.Right) {
         col += 1;
       }
-      if (action == Direction.Left) {
+      if (action === Direction.Left) {
         col -= 1;
       }
     }
@@ -133,16 +130,16 @@ export default class FrozenLake implements Env {
   // generateRandomMap(size = 8, p = 0.8) {}
 
   private inMap(row: number, col: number, action: number) {
-    if (row == 0 && action == Direction.Up) {
+    if (row === 0 && action === Direction.Up) {
       return false;
     }
-    if (row == this.mapSize - 1 && action == Direction.Down) {
+    if (row === this.mapSize - 1 && action === Direction.Down) {
       return false;
     }
-    if (col == 0 && action == Direction.Left) {
+    if (col === 0 && action === Direction.Left) {
       return false;
     }
-    if (col == this.mapSize - 1 && action == Direction.Right) {
+    if (col === this.mapSize - 1 && action === Direction.Right) {
       return false;
     }
     return true;
@@ -153,13 +150,12 @@ export default class FrozenLake implements Env {
   }
 }
 
-function demo():void {
+function demo(): void {
   let game = new FrozenLake(8, 0.8, false);
   game.reset();
   let done = false;
 
-
-  let outerEnv = document.getElementById("game");
+  let outerEnv = document.getElementById('game');
   window.setInterval(() => {
     if (!done) {
       // game.render();
@@ -171,8 +167,8 @@ function demo():void {
     } else {
       game.reset();
       done = false;
-      console.log("Game terminated, resetting.");
-      console.log("---------------------------");
+      console.log('Game terminated, resetting.');
+      console.log('---------------------------');
     }
   }, 1000);
 }
@@ -183,32 +179,27 @@ enum Direction {
   Up,
   Right,
   Left,
-  Down
+  Down,
 }
 
 let MAPS = {
-  "4x4":[
-    ["S", "F", "F", "F"],
-    ["F", "H", "F", "H"],
-    ["F", "F", "F", "H"],
-    ["H", "F", "F", "G"]
+  '4x4': [['S', 'F', 'F', 'F'], ['F', 'H', 'F', 'H'], ['F', 'F', 'F', 'H'], ['H', 'F', 'F', 'G']],
+  '8x8': [
+    ['S', 'F', 'F', 'F', 'F', 'F', 'F', 'F'],
+    ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F'],
+    ['F', 'F', 'F', 'H', 'F', 'F', 'F', 'F'],
+    ['F', 'F', 'F', 'F', 'F', 'H', 'F', 'F'],
+    ['F', 'F', 'F', 'H', 'F', 'F', 'F', 'F'],
+    ['F', 'H', 'H', 'F', 'F', 'F', 'H', 'F'],
+    ['F', 'H', 'F', 'F', 'H', 'F', 'H', 'F'],
+    ['F', 'F', 'F', 'H', 'F', 'F', 'F', 'G'],
   ],
-  "8x8":[
-    ["S","F","F","F","F","F","F","F"],
-    ["F","F","F","F","F","F","F","F"],
-    ["F","F","F","H","F","F","F","F"],
-    ["F","F","F","F","F","H","F","F"],
-    ["F","F","F","H","F","F","F","F"],
-    ["F","H","H","F","F","F","H","F"],
-    ["F","H","F","F","H","F","H","F"],
-    ["F","F","F","H","F","F","F","G"]
-  ] 
-}
+};
 
 function decodeAction(action: number): string {
-  if (action == Direction.Up) return "Up";
-  if (action == Direction.Right) return "Right";
-  if (action == Direction.Left) return "Left";
-  if (action == Direction.Down) return "Down";
-  return "Not in action space"
+  if (action === Direction.Up) return 'Up';
+  if (action === Direction.Right) return 'Right';
+  if (action === Direction.Left) return 'Left';
+  if (action === Direction.Down) return 'Down';
+  return 'Not in action space';
 }

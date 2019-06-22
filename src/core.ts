@@ -1,5 +1,5 @@
 import Space from './spaces/space';
-import * as tf from "@tensorflow/tfjs";
+import * as tf from '@tensorflow/tfjs';
 
 /**
  * This class is derived from OpenAI's Gym (https://github.com/openai/gym)
@@ -24,7 +24,7 @@ import * as tf from "@tensorflow/tfjs";
  */
 interface Env {
   /**
-   * @property action_space The possible actions that can be taken. 
+   * @property action_space The possible actions that can be taken.
    *           either continuous or discrete.
    */
   action_space: Space;

@@ -4,7 +4,8 @@ export default interface Space {
   shape: number[];
   type: any;
 
-  sample(): number;
+  // Change sampling to tensor?
+  sample(): number | number[];
   seed(seed: number): void;
   set(space: tf.Tensor): void;
   get(): tf.Tensor;

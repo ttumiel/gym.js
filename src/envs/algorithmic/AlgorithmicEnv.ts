@@ -1,7 +1,7 @@
-import Env from "../../core";
-import Discrete, {DiscreteTuple} from "../../spaces/discrete";
+import Env from '../../core';
+import Discrete, { DiscreteTuple } from '../../spaces/discrete';
 import * as tf from '@tensorflow/tfjs';
-import { range, randint, toNumLike, toArrayLike } from "../../utils";
+import { range, randint, toNumLike, toArrayLike } from '../../utils';
 
 declare type actionSpace = Discrete[] | number | number[];
 
@@ -20,14 +20,14 @@ declare type actionSpace = Discrete[] | number | number[];
  *  Equivalent to `base` + 1.
  */
 abstract class AlgorithmicEnv implements Env {
-  constructor(movements:string[], base:number=10) {
+  constructor(movements: string[], base: number = 10) {
     this.base = base;
     this.MOVEMENTS = movements;
     // this.action_space; // TODO: change to discrete tuple space
     this.tuple_action_space = new DiscreteTuple([this.MOVEMENTS.length, 2, this.base]);
     this.observation_space = new Discrete([this.base + 1]);
-    this.charmap = range(base).map(i=>String(i)); // range*rows for grid env
-    this.charmap.push("_");
+    this.charmap = range(base).map(i => String(i)); // range*rows for grid env
+    this.charmap.push('_');
     // this.seed();
     this.reset();
   }
@@ -39,7 +39,7 @@ abstract class AlgorithmicEnv implements Env {
   base: number;
   MOVEMENTS: string[];
   MIN_LENGTH: number = 5;
-  charmap: string[]
+  charmap: string[];
   done: boolean;
   reward: number;
   target: [];
@@ -51,14 +51,13 @@ abstract class AlgorithmicEnv implements Env {
   step(action: actionSpace): [tf.Tensor, number, boolean, {}] {
     // Check that action is in action space!
 
-    if (!this.done){
-
+    if (!this.done) {
       // Write char
-      if (action[1] === 1){
+      if (action[1] === 1) {
         this.agentActions[this.cursor] = action[2];
-        if (action[2] === this.target[this.cursor]){
+        if (action[2] === this.target[this.cursor]) {
         this.reward = 1;
-      }else{
+        } else {
         this.done = true;
         this.reward = -0.5;
       }
@@ -67,9 +66,8 @@ abstract class AlgorithmicEnv implements Env {
       // Move cursor
       this.move(action);
       this.observation_space.set(this.toObs());
-
-    }else{
-      console.warn("The environment has returned `done=True`. You should call `reset` before continuing.");
+    } else {
+      console.warn('The environment has returned `done=True`. You should call `reset` before continuing.');
     }
     return [this.observation_space.get(), this.reward, this.done, {}];
   }
@@ -81,18 +79,18 @@ abstract class AlgorithmicEnv implements Env {
     this.done = false;
     this.reward = 0.0;
     this.cursor = 0;
-    this.agentActions = range(this.targetLength).map(()=>-1);
+    this.agentActions = range(this.targetLength).map(() => -1);
     this.observation_space.set(this.toObs());
     return this.observation_space.get();
   }
 
   render(): void {
-    console.log("-".repeat(20));
-    console.log("Input:", this.inputData.map(i => this.charmap[i]).join(""));
-    console.log("Target:", this.target.map(i => this.charmap[i]).join(""));
-    console.log("Predictions:", this.agentActions.map(i => i===-1 ? "_" : this.charmap[i]).join(""));
-    console.log("Obs:", this.getStrObs());
-    console.log("-".repeat(20));
+    console.log('-'.repeat(20));
+    console.log('Input:', this.inputData.map(i => this.charmap[i]).join(''));
+    console.log('Target:', this.target.map(i => this.charmap[i]).join(''));
+    console.log('Predictions:', this.agentActions.map(i => (i === -1 ? '_' : this.charmap[i])).join(''));
+    console.log('Obs:', this.getStrObs());
+    console.log('-'.repeat(20));
   }
 
   renderHTML(): string {
@@ -108,7 +106,7 @@ abstract class AlgorithmicEnv implements Env {
   close(): void {}
   seed(seed: number): void {}
 
-  getStrObs():string{
+  getStrObs(): string {
     let ret = Number(this.toObs());
     return this.charmap[ret];
   }
@@ -124,10 +122,10 @@ abstract class AlgorithmicEnv implements Env {
   abstract toObs(): tf.Tensor; 
 
   // Set the target from the input data
-  abstract setTarget(input_data:any):void;
+  abstract setTarget(input_data: any): void;
 
   // Generate the target data
-  abstract genInputData(size:number):any;
+  abstract genInputData(size: number): any;
 }
 
 /**
@@ -135,34 +133,34 @@ abstract class AlgorithmicEnv implements Env {
  * 
  * Environment observations wrap around tape.
  */
-abstract class TapeAlgorithmicEnv extends AlgorithmicEnv{
+abstract class TapeAlgorithmicEnv extends AlgorithmicEnv {
   MOVEMENTS: string[];
-  cursor:number;
+  cursor: number;
 
-  constructor(base: number){
-    super(["Left", "Right"], base);
+  constructor(base: number) {
+    super(['Left', 'Right'], base);
   }
 
-  move(action: actionSpace): void{
-    if (action[0]==0 && this.cursor<=0){
+  move(action: actionSpace): void {
+    if (action[0] === 0 && this.cursor <= 0) {
       this.cursor = this.targetLength;
-    }else if (action[0]==1 && this.cursor>=this.targetLength){
+    } else if (action[0] === 1 && this.cursor >= this.targetLength) {
       this.cursor = 0;
-    }else{
-    if(action[0] == 0){
+    } else {
+      if (action[0] === 0) {
       this.cursor -= 1;
-    }else if (action[0] == 1){
+      } else if (action[0] === 1) {
       this.cursor += 1;
     }
   }
   }
   
-  toObs(): any{
-    if (this.cursor == this.targetLength) return this.base;
+  toObs(): any {
+    if (this.cursor === this.targetLength) return this.base;
     return this.inputData[this.cursor];
   }
 
-  genInputData(size:number):any{
+  genInputData(size: number): any {
     return randint(this.base, undefined, size);
   }
 }

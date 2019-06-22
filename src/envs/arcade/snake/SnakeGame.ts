@@ -5,13 +5,14 @@ import Env from '../../../core';
 import Discrete from '../../../spaces/discrete';
 import Space from '../../../spaces/space';
 import * as tf from '@tensorflow/tfjs';
+import { toNumLike } from '../../../utils';
 
-var snake;
-var food;
-var cursors;
+let snake;
+let food;
+let cursors;
 
 class SnakeGame extends Phaser.Scene {
-  // Game code from https://labs.phaser.io/view.html?src=src\games\snake\part7.js
+  // Game code adapted from https://labs.phaser.io/view.html?src=src\games\snake\part7.js
 
   action: number = 0;
   done: boolean = false;
@@ -30,7 +31,7 @@ class SnakeGame extends Phaser.Scene {
     snake = new SnakeBody(this, 8, 8); // change to random initialisation
 
     // Create keyboard controls
-    if (this.mode == 'interactive') {
+    if (this.mode === 'interactive') {
       cursors = this.input.keyboard.createCursorKeys();
     }
   }
@@ -49,7 +50,7 @@ class SnakeGame extends Phaser.Scene {
      * the LEFT cursor, it ignores it, because the only valid directions you
      * can move in at that time is up and down.
      */
-    if (this.mode == 'interactive') {
+    if (this.mode === 'interactive') {
       if (cursors.left.isDown) {
         snake.faceLeft();
       } else if (cursors.right.isDown) {
@@ -60,13 +61,13 @@ class SnakeGame extends Phaser.Scene {
         snake.faceDown();
       }
     } else {
-      if (this.action == 0) {
+      if (this.action === 0) {
         snake.faceLeft();
-      } else if (this.action == 1) {
+      } else if (this.action === 1) {
         snake.faceUp();
-      } else if (this.action == 2) {
+      } else if (this.action === 2) {
         snake.faceRight();
-      } else if (this.action == 3) {
+      } else if (this.action === 3) {
         snake.faceDown();
       }
     }
@@ -149,6 +150,7 @@ const config = {
 };
 
 export default class Snake extends Phaser.Game implements Env {
+  constructor(config) {
     super(config);
   }
 
@@ -183,29 +185,31 @@ export default class Snake extends Phaser.Game implements Env {
     rewardSpace: this.reward_range.toString(),
     actionSpace: this.action_space.toString(),
     actionDesc: {
-      0: "left",
-      1: "right",
-      2: "up",
-      3: "down"
-    }
-  }
+      0: 'left',
+      1: 'right',
+      2: 'up',
+      3: 'down',
+    },
+  };
 
   step(action: number): [tf.Tensor, number, boolean, {}];
   step(time: number, delta: number, action: number): [tf.Tensor, number, boolean, {}];
-  step(time: number, delta?: number, action?: number): [tf.Tensor, number, boolean, {}]{
+  step(time: number, delta?: number, action?: number): [tf.Tensor, number, boolean, {}] {
     let info = {};
 
-    if (this.renderDisplay){
+    if (this.renderDisplay) {
       super.step(time, delta);
     } else {
       super.headlessStep(time, delta);
     }
 
-    action = this.action_space.sample();
-    console.assert(action>=0 && action<=3, "The action you made is not in the action space!");
+    action = toNumLike(this.action_space.sample());
+    console.assert(action >= 0 && action <= 3, 'The action you made is not in the action space!');
 
-    if (this.done == true){
-      console.warn("You've called 'step()' although the environment has already returned 'done=true'. You should always call 'reset()' once you receive 'done=true'")
+    if (this.done === true) {
+      console.warn(
+        "You've called 'step()' although the environment has already returned 'done=true'. You should always call 'reset()' once you receive 'done=true'",
+      );
     }
     this.done = this._checkDone();
     this._setAction(action);
@@ -213,8 +217,8 @@ export default class Snake extends Phaser.Game implements Env {
     this.observation_space.set(this._getObs());
     let reward = this._getReward();
 
-    if (reward != 0 && this.verbose){
-      console.info("Reward received: " + reward.toString());
+    if (reward != 0 && this.verbose) {
+      console.info('Reward received: ' + reward.toString());
     }
 
     // this.observation_space.get().print();
@@ -222,17 +226,17 @@ export default class Snake extends Phaser.Game implements Env {
     return [this.observation_space.get(), reward, this.done, info];
   }
 
-  reset(): tf.Tensor{
+  reset(): tf.Tensor {
     this.start();
     this.observation_space.set(this._getObs());
     return this.observation_space.get();
   }
 
-  render(value: boolean=true): void {
+  render(value: boolean = true): void {
     this.renderDisplay = value;
   }
 
-  close(removeCanvas: boolean=false): void{
+  close(removeCanvas: boolean = false): void {
     this.destroy(removeCanvas);
   }
 
