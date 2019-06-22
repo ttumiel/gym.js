@@ -1,6 +1,6 @@
 {
-  "name": "gym.js",
-  "version": "0.1.1",
+  "name": "gym-js",
+  "version": "0.1.2",
   "description": "A JavaScript Environment for Reinforcement Learning.",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,6 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
-    "prepublishOnly": "npm run lint",
-    "preversion": "npm run lint",
     "demo": "webpack --watch & live-server --port=8085"
   },
   "keywords": [
