@@ -6,9 +6,7 @@ import { range, randint, toNumLike, toArrayLike } from '../../utils';
 declare type actionSpace = Discrete[] | number | number[];
 
 /**
- * Environment for algorithms.
- * 
- * @param {number} base Number of distinct characters.
+ * Abstract environment for algorithms.
  * 
  * Action: A tuple containing [
  *  the move over the input,
@@ -20,6 +18,10 @@ declare type actionSpace = Discrete[] | number | number[];
  *  Equivalent to `base` + 1.
  */
 abstract class AlgorithmicEnv implements Env {
+  /**
+   * @param movements The possible movements that the agent can make.
+   * @param base Number of distinct characters.
+   */
   constructor(movements: string[], base: number = 10) {
     this.base = base;
     this.MOVEMENTS = movements;
@@ -60,7 +62,7 @@ abstract class AlgorithmicEnv implements Env {
         } else {
         this.done = true;
         this.reward = -0.5;
-      }
+        }
       }
 
       // Move cursor
@@ -131,7 +133,8 @@ abstract class AlgorithmicEnv implements Env {
 /**
  * A 1 dimensional algorithmic env.
  * 
- * Environment observations wrap around tape.
+ * Environment observations wrap around tape with an additional
+ * observation for the out-of-bounds case.
  */
 abstract class TapeAlgorithmicEnv extends AlgorithmicEnv {
   MOVEMENTS: string[];
@@ -151,8 +154,8 @@ abstract class TapeAlgorithmicEnv extends AlgorithmicEnv {
       this.cursor -= 1;
       } else if (action[0] === 1) {
       this.cursor += 1;
+      }
     }
-  }
   }
   
   toObs(): any {
@@ -203,6 +206,13 @@ abstract class GridAlgorithmicEnv extends AlgorithmicEnv {
   }
 }
 
+/**
+ * Decode the algorithmic env tuple action_space into an object containing
+ * the decoded movement, write boolean, and the character to write.
+ * 
+ * @param action An action in the `action_space` of the env.
+ * @param movements The allowed movements of the env.
+ */
 function decodeAction(action: actionSpace, movements: string[]): {} {
   return { Movement: movements[action[0]], Write: Boolean(action[1]).toString(), Character: String(action[2]) };
 }

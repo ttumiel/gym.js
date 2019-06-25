@@ -6,21 +6,39 @@ import * as tf from '@tensorflow/tfjs';
 /**
  * An environment implementing the toy text "Frozen Lake" game.
  * 
- * @param mapSize The size of the map
- * @param p The probability of not slipping
- * @param isSlippery Set the ice to slippery or not
- * 
+ * @remarks
  * Actions:
- *  0 - Up
- *  1 - Right
- *  2 - Down
- *  3 - Left
+ *  0 - Up.
+ *  1 - Right.
+ *  2 - Down.
+ *  3 - Left.
  * 
  * Rewards:
- *  1 - If reach target 'G'
- *  0 - Otherwise
+ *  1 - If reach target 'G'.
+ *  0 - Otherwise.
+ * 
+ * @example
+ * ```typescript
+ * import {FrozenLake} from "gym-js";
+ * let mapSize=4,p=0.8,isSlippery=false;
+ * const env = new FrozenLake(mapSize, p, isSlippery);
+ * 
+ * console.log(env.action_space.toString());
+ * > 
+ * console.log(env.observation_space.toString());
+ * > 
+ * 
+ * let action = env.action_space.sample();
+ * let [obs, rew, done, info] = env.step(action);
+ * ```
  */
 export default class FrozenLake implements Env {
+  /**
+   * @param mapSize - The size of the map
+   * @param p - The probability of not slipping
+   * @param isSlippery - Set the ice to slippery or not. This makes the agent move 
+   * in a random direction with probability `1-p`.
+   */
   constructor(mapSize: number = 4, p: number = 0.8, isSlippery: boolean = true) {
     this.action_space = new Discrete([4]);
     this.reward_range = new Discrete([2]);

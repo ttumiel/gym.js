@@ -1,14 +1,32 @@
 import { TapeAlgorithmicEnv, decodeAction } from './AlgorithmicEnv';
 
+/**
+ * A 1D algorithmic environment where the target is the same 
+ * as the observation.
+ * 
+ * @example
+ * ```typescript
+ * import {Copy} from "gym-js";
+ * const env = new Copy();
+ * 
+ * console.log(env.action_space.toString());
+ * > 
+ * console.log(env.observation_space.toString());
+ * > 
+ * 
+ * let action = env.action_space.sample();
+ * let [obs, rew, done, info] = env.step(action);
+ * ```
+ */
 export default class Copy extends TapeAlgorithmicEnv {
   setTarget(input_data: any): void {
     this.target = input_data;
   }
 }
 
-////////////////////////
-////// Game Demo ///////
-////////////////////////
+/**
+ * Demo of the [[Copy]] environment.
+ */
 function demo() {
   let game = new Copy(3);
   let done = false;
