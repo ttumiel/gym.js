@@ -2,7 +2,21 @@
 
 __Warning__: Under active development. APIs may change.
 
-A browser based reinforcement learning environment. Based off of OpenAI's [Gym](https://github.com/openai/gym).
+A browser-based reinforcement learning environment. Based off of OpenAI's [Gym](https://github.com/openai/gym).
+
+## Installation
+
+Install with `npm`:
+
+```bash
+npm install gym-js
+```
+
+And import environments from the module:
+
+```javascript
+import { FrozenLake } from "gym-js";
+```
 
 ## Contributing
 
@@ -10,5 +24,9 @@ Please make a pull request for any contribution. In particular, you can reimplem
 
 ## Adding a New Environment
 
-[See here.](./src/envs)
+[See here.](https://github.com/Tom2718/gym.js/tree/master/src/envs#environments)
+
+## Future Plans
+
+The aim for this library is to match `gym` with both functionality and environments. A list of environments still to be added is in the [`env`](https://github.com/Tom2718/gym.js/tree/master/src/envs#environments) folder.
 
