@@ -2,78 +2,86 @@ import Space from './spaces/space';
 import * as tf from '@tensorflow/tfjs';
 
 /**
- * This class is derived from OpenAI's Gym (https://github.com/openai/gym)
- * and thus the API is very similar. For a list of differences, see
- * here:
- *
  * The main Gym.js class. It encapsulates an environment with
  * arbitrary behind-the-scenes dynamics. An environment can be
  * partially or fully observed.
+ * 
+ * This class is derived from OpenAI's [Gym](https://github.com/openai/gym)
+ * and thus the API is very similar and in most cases the same. The key 
+ * differences are as follows:
+ * - gym.js uses tensorflow.js for tensor manipulation instead of numpy. 
+ *   As a result, all of the returned datatypes are `tf.Tensor` in place
+ *   of `np.array`.
+ * - The `render` method prints the environment to the console. `renderHTML`
+ *   either returns an HTML string or, in the case of a Phaser env, renders 
+ *   on the canvas.
  *
  *  The main API methods that users of this class need to know are:
- *      step
- *      reset
- *      render
- *      close
- *      seed
+ *   - step
+ *   - reset
+ *   - render
+ *   - close
+ *   - seed
  *
  *  And set the following attributes:
- *      action_space: The Space object corresponding to valid actions
- *      observation_space: The Space object corresponding to valid observations
- *      reward_range: A tuple corresponding to the min and max possible rewards
+ *   - `action_space`: The Space object corresponding to valid actions
+ *   - `observation_space`: The Space object corresponding to valid observations
+ *   - `reward_range`: A tuple corresponding to the min and max possible rewards
  */
 interface Env {
   /**
-   * @property action_space The possible actions that can be taken.
-   *           either continuous or discrete.
+   * The possible actions that can be taken. Either continuous or discrete.
    */
   action_space: Space;
 
   /**
-   * @property observation_space The observable world.
+   * The observable world.
    */
   observation_space: Space;
 
   /**
-   * @property reward_range The possible rewards an agent can achieve.
+   * The possible rewards an agent can achieve.
    */
   reward_range: Space;
 
   /**
-   * @function step Steps the environment according to some action.
-   * @param action The action to take (in action_space)
-   * @returns [tf.Tensor, number, boolean, {}]
+   * Steps the environment according to some action.
+   * 
+   * @param action - The action to take (in action_space)
+   * @returns - [observation, reward, done, info] tuple
    */
   step(action: number): [tf.Tensor, number, boolean, {}];
 
   /**
-   * @function step Overloaded step for Phaser Games.
-   * @param time Phaser time
-   * @param delta Phaser time delta
-   * @param action The action to take (in action_space)
-   * @returns [tf.Tensor, number, boolean, {}]
+   * Overloaded `step` function for Phaser Games.
+   * 
+   * @param time - Phaser time
+   * @param delta - Phaser time delta
+   * @param action - The action to take (in action_space)
+   * @returns - [observation, reward, done, info] tuple
    */
   step(time: number, delta: number, action: number): [tf.Tensor, number, boolean, {}];
 
   /**
-   * @function reset Restore the environment to a random starting state
-   * @returns tf.Tensor The initial observation
+   * Restore the environment to a random starting state
+   * @returns The initial observation
    */
   reset(): tf.Tensor;
 
   /**
-   * @function render Display the game environment
+   * Display the game environment
    */
   render(): void;
 
   /**
-   * @function close Terminate the game session and close environment
+   * Terminate the game session and close environment
    */
   close(): void;
 
   /**
-   * @function seed Seed the randomness in the environment
-   * @param seed The seed value
+   * Seed the randomness in the environment
+   * 
+   * @param seed - The seed value
    */
   seed(seed: number): void;
 }

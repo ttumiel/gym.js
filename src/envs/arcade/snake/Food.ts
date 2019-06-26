@@ -1,5 +1,6 @@
 import * as Phaser from 'phaser';
 
+/** @ignore */
 export default class Food extends Phaser.GameObjects.Image {
   total: number;
 

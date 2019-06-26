@@ -5,6 +5,7 @@ var DOWN = 1;
 var LEFT = 2;
 var RIGHT = 3;
 
+/** @ignore */
 export default class SnakeBody extends Phaser.Scene {
   headPosition;
   body;

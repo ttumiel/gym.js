@@ -9,6 +9,9 @@ import { toNumLike } from '../../../utils';
 
 /**
  * The game of snake. Made with `Phaser`.
+ * 
+ * Observations are the pixels of the game of default size `[640, 480, 3]`;
+ * 
  * Game code adapted from https://labs.phaser.io/view.html?src=src\games\snake\part7.js
  * 
  * @example
@@ -27,7 +30,7 @@ import { toNumLike } from '../../../utils';
  */
 export default class Snake extends Phaser.Game implements Env {
   /**
-   * @param config A configuration object, detailing the game settings. See
+   * @param config - A configuration object, detailing the game settings. See
    * the default config below.
    */
   constructor(config) {
@@ -35,25 +38,25 @@ export default class Snake extends Phaser.Game implements Env {
   }
 
   /**
-   * @property action_space Possible Actions:
-   * 0: left
-   * 1: up
-   * 2: right
-   * 3: down
+   * Possible Actions:
+   * 0. left
+   * 1. up
+   * 2. right
+   * 3. down
    * The snake is not able to move opposite its current direction.
    */
   action_space: Space = new Discrete([4]);
 
   /**
-   * @property observation_space The pixel values of the game (640x480).
+   * The pixel values of the game (640x480).
    */
   observation_space: Space = new Discrete([640, 480, 3]);
 
   /**
-   * @property reward_range the value of eating the food
-   * +1 for eating food
-   * -1 for crashing into itself
-   * 0 else
+   * The value of eating the food:
+   * - +1 for eating food
+   * - -1 for crashing into itself
+   * - 0 else
    */
   reward_range: Space = new Discrete([3]);
 
@@ -150,6 +153,7 @@ let snake;
 let food;
 let cursors;
 
+/** @ignore */
 class SnakeGame extends Phaser.Scene {
   action: number = 0;
   done: boolean = false;

@@ -1,5 +1,8 @@
 import * as tf from '@tensorflow/tfjs';
 
+/**
+ * A simple spatial interface to extend.
+ */
 export default interface Space {
   shape: number[];
   type: any;

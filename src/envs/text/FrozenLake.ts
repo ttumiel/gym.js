@@ -6,16 +6,15 @@ import * as tf from '@tensorflow/tfjs';
 /**
  * An environment implementing the toy text "Frozen Lake" game.
  * 
- * @remarks
  * Actions:
- *  0 - Up.
- *  1 - Right.
- *  2 - Down.
- *  3 - Left.
+ *  0. Up.
+ *  1. Right.
+ *  2. Down.
+ *  3. Left.
  * 
  * Rewards:
- *  1 - If reach target 'G'.
- *  0 - Otherwise.
+ *  1. If reach target 'G'.
+ *  0. Otherwise.
  * 
  * @example
  * ```typescript
@@ -201,7 +200,10 @@ enum Direction {
 }
 
 let MAPS = {
-  '4x4': [['S', 'F', 'F', 'F'], ['F', 'H', 'F', 'H'], ['F', 'F', 'F', 'H'], ['H', 'F', 'F', 'G']],
+  '4x4': [['S', 'F', 'F', 'F'], 
+          ['F', 'H', 'F', 'H'], 
+          ['F', 'F', 'F', 'H'], 
+          ['H', 'F', 'F', 'G']],
   '8x8': [
     ['S', 'F', 'F', 'F', 'F', 'F', 'F', 'F'],
     ['F', 'F', 'F', 'F', 'F', 'F', 'F', 'F'],
@@ -214,6 +216,7 @@ let MAPS = {
   ],
 };
 
+/** Decode an action from the [[FrozenLake]] env for debugging. */
 function decodeAction(action: number): string {
   if (action === Direction.Up) return 'Up';
   if (action === Direction.Right) return 'Right';

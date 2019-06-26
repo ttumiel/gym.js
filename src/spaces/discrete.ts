@@ -5,7 +5,18 @@ import { randint, toNumLike, toArrayLike } from '../utils';
 /**
  * A `Discrete` `Space` class.
  *
- * @param {number[]} shape The shape of the space
+ * Used for spaces with a discrete sample space as opposed to continuous.
+ * 
+ * @example
+ * ```typescript
+ * const disc = new Discrete([6]);
+ * console.log(disc.toString());
+ * > Discrete: [6]
+ * 
+ * const sample = disc.sample();
+ * console.log(sample);
+ * > 2
+ * ```
  */
 export default class Discrete implements Space {
   shape: number[];
@@ -14,6 +25,9 @@ export default class Discrete implements Space {
   seedValue: number;
   length: number;
 
+  /**
+   * @param shape - The shape of the space
+   */
   constructor(shape: number[]) {
     this.shape = shape;
     this.type = 'Discrete';
@@ -30,7 +44,7 @@ export default class Discrete implements Space {
   /**
    * Sample a random value from this `Space`.
    *
-   * @returns {tf.Tensor} A random sample.
+   * @returns - A random sample.
    */
   sample(): number {
     // TODO: change to tensor?
@@ -60,6 +74,22 @@ export default class Discrete implements Space {
   }
 }
 
+/**
+ * A tuple of [[Discrete]] Spaces.
+ * 
+ * A convenience class for sampling a tuple of [[Discrete]] spaces.
+ * 
+ * @example
+ * ```typescript
+ * const discTuple = new DiscreteTuple([2,2,6]);
+ * console.log(discTuple.toString());
+ * > DiscreteTuple: [2, 2, 6]
+ * 
+ * const sample = discTuple.sample();
+ * console.log(sample);
+ * > [0,1,3]
+ * ```
+ */
 export class DiscreteTuple implements Space {
   shape: number[];
   type: string;
@@ -67,6 +97,9 @@ export class DiscreteTuple implements Space {
   seedValue: number;
   length: number;
 
+  /**
+   * @param shape - The shape of the tuple.
+   */
   constructor(shape: number[]) {
     this.shape = shape;
     this.type = 'DiscreteTuple';
@@ -87,7 +120,7 @@ export class DiscreteTuple implements Space {
   /**
    * Sample a random value from this `Space`.
    *
-   * @returns {number[]} A tuple of random samples.
+   * @returns - A tuple of random samples.
    */
   sample(): number[] {
     return toArrayLike(this.sampleSpace.map(ss => ss.sample()));
