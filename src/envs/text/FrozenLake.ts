@@ -5,28 +5,28 @@ import * as tf from '@tensorflow/tfjs';
 
 /**
  * An environment implementing the toy text "Frozen Lake" game.
- * 
+ *
  * Actions:
  *  0. Up.
  *  1. Right.
  *  2. Down.
  *  3. Left.
- * 
+ *
  * Rewards:
- *  1. If reach target 'G'.
- *  0. Otherwise.
- * 
+ *  - 1: If reach target 'G'.
+ *  - 0: Otherwise.
+ *
  * @example
  * ```typescript
  * import {FrozenLake} from "gym-js";
  * let mapSize=4,p=0.8,isSlippery=false;
  * const env = new FrozenLake(mapSize, p, isSlippery);
- * 
+ *
  * console.log(env.action_space.toString());
- * > 
+ * > Discrete: 4    // 4 possible movements
  * console.log(env.observation_space.toString());
- * > 
- * 
+ * > Discrete: 16   // 4x4 map
+ *
  * let action = env.action_space.sample();
  * let [obs, rew, done, info] = env.step(action);
  * ```
@@ -35,7 +35,7 @@ export default class FrozenLake implements Env {
   /**
    * @param mapSize - The size of the map
    * @param p - The probability of not slipping
-   * @param isSlippery - Set the ice to slippery or not. This makes the agent move 
+   * @param isSlippery - Set the ice to slippery or not. This makes the agent move
    * in a random direction with probability `1-p`.
    */
   constructor(mapSize: number = 4, p: number = 0.8, isSlippery: boolean = true) {
@@ -200,9 +200,9 @@ enum Direction {
 }
 
 let MAPS = {
-  '4x4': [['S', 'F', 'F', 'F'], 
-          ['F', 'H', 'F', 'H'], 
-          ['F', 'F', 'F', 'H'], 
+  '4x4': [['S', 'F', 'F', 'F'],
+          ['F', 'H', 'F', 'H'],
+          ['F', 'F', 'F', 'H'],
           ['H', 'F', 'F', 'G']],
   '8x8': [
     ['S', 'F', 'F', 'F', 'F', 'F', 'F', 'F'],

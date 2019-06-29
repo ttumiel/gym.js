@@ -4,15 +4,26 @@ import { TapeAlgorithmicEnv, decodeAction } from './AlgorithmicEnv';
  * A 1D algorithmic environment where the target is the reverse
  * of the observation.
  *
+ * The 1D [[TapeAlgorithmicEnv]] has an `action_space` tuple
+ * with shape [2,2,10]. The first item is the chosen movement,
+ * either left or right. The second item is whether to write
+ * to the current position or not. Finally, the last value is
+ * the actual value to write to the tape in the current position.
+ * The environment terminates immediately when an incorrect item
+ * is written or when the entire output is successfully outputted.
+ * The `MIN_LENGTH` of the tape is `5` plus a random number between
+ * 0 and 2.
+ *
  * @example
  * ```typescript
  * import {Reverse} from "gym-js";
- * const env = new Reverse();
+ * let base = 10;
+ * const env = new Reverse(base);
  *
  * console.log(env.action_space.toString());
- * >
+ * > DiscreteTuple: 2,2,10
  * console.log(env.observation_space.toString());
- * >
+ * > Discrete: 11
  *
  * let action = env.action_space.sample();
  * let [obs, rew, done, info] = env.step(action);

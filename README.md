@@ -4,6 +4,8 @@ __Warning__: Under active development. APIs may change.
 
 A browser-based reinforcement learning environment. Based off of OpenAI's [Gym](https://github.com/openai/gym).
 
+[See the docs](https://tom2718.github.io/gym.js/index.html)
+
 ## Installation
 
 Install with `npm`:

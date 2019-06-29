@@ -15,7 +15,11 @@ declare type actionSpace = Discrete[] | number | number[];
  * ]
  *
  * Observations: The character under the read cursor.
- *  Equivalent to `base` + 1.
+ *  A total of `base` + 1 with an extra out-of-bounds
+ *  character.
+ *
+ * The environment terminates immediately when an incorrect item
+ * is written or when the entire output is successfully outputted.
  */
 abstract class AlgorithmicEnv implements Env {
   /**
@@ -133,12 +137,15 @@ abstract class AlgorithmicEnv implements Env {
  *
  * Environment observations wrap around tape with an additional
  * observation for the out-of-bounds case.
+ *
+ * The `MIN_LENGTH` of the tape is `5` plus a random number between
+ * 0 and 2.
  */
 abstract class TapeAlgorithmicEnv extends AlgorithmicEnv {
   MOVEMENTS: string[];
   cursor: number;
 
-  constructor(base: number) {
+  constructor(base: number = 10) {
     super(['Left', 'Right'], base);
   }
 
