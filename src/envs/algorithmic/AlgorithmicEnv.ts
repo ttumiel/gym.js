@@ -7,13 +7,13 @@ declare type actionSpace = Discrete[] | number | number[];
 
 /**
  * Abstract environment for algorithms.
- * 
+ *
  * Action: A tuple containing [
  *  the move over the input,
  *  whether to write to the output,
- *  the predicted character 
+ *  the predicted character
  * ]
- * 
+ *
  * Observations: The character under the read cursor.
  *  Equivalent to `base` + 1.
  */
@@ -25,8 +25,7 @@ abstract class AlgorithmicEnv implements Env {
   constructor(movements: string[], base: number = 10) {
     this.base = base;
     this.MOVEMENTS = movements;
-    // this.action_space; // TODO: change to discrete tuple space
-    this.tuple_action_space = new DiscreteTuple([this.MOVEMENTS.length, 2, this.base]);
+    this.action_space = new DiscreteTuple([this.MOVEMENTS.length, 2, this.base]);
     this.observation_space = new Discrete([this.base + 1]);
     this.charmap = range(base).map(i => String(i)); // range*rows for grid env
     this.charmap.push('_');
@@ -34,8 +33,7 @@ abstract class AlgorithmicEnv implements Env {
     this.reset();
   }
 
-  tuple_action_space: DiscreteTuple;
-  action_space: Discrete;
+  action_space: DiscreteTuple;
   observation_space: Discrete;
   reward_range: Discrete;
   base: number;
@@ -98,7 +96,7 @@ abstract class AlgorithmicEnv implements Env {
   renderHTML(): string {
     return `
     <style>.currentState{background-color: red}</style>
-    <div class="game-input"><span${this.inputData.map((v,i) => (i==this.cursor ? ' class="currentState">' : ">") 
+    <div class="game-input"><span${this.inputData.map((v,i) => (i==this.cursor ? ' class="currentState">' : ">")
                                                           + this.charmap[v]).join("</span><span")}</span></div>
     <div class="game-target">${this.target.map(i => this.charmap[i]).join("")}</div>
     <div class="agent-preds">${this.agentActions.map(i => "<span>" + (i===-1 ? "_" : this.charmap[i])+"</span>").join("")}</div>
@@ -118,10 +116,10 @@ abstract class AlgorithmicEnv implements Env {
   // }
 
   // Move the cursor according to the action
-  abstract move(action: actionSpace): void; 
-  
+  abstract move(action: actionSpace): void;
+
   // Return the current observation according to the cursor
-  abstract toObs(): tf.Tensor; 
+  abstract toObs(): tf.Tensor;
 
   // Set the target from the input data
   abstract setTarget(input_data: any): void;
@@ -132,7 +130,7 @@ abstract class AlgorithmicEnv implements Env {
 
 /**
  * A 1 dimensional algorithmic env.
- * 
+ *
  * Environment observations wrap around tape with an additional
  * observation for the out-of-bounds case.
  */
@@ -157,7 +155,7 @@ abstract class TapeAlgorithmicEnv extends AlgorithmicEnv {
       }
     }
   }
-  
+
   toObs(): any {
     if (this.cursor === this.targetLength) return this.base;
     return this.inputData[this.cursor];
@@ -196,7 +194,7 @@ abstract class GridAlgorithmicEnv extends AlgorithmicEnv {
     }
     this.cursor = this.row * this.base + this.col;
   }
-  
+
   toObs(): tf.Tensor {
     return this.inputData[this.cursor];
   }
@@ -209,7 +207,7 @@ abstract class GridAlgorithmicEnv extends AlgorithmicEnv {
 /**
  * Decode the algorithmic env tuple action_space into an object containing
  * the decoded movement, write boolean, and the character to write.
- * 
+ *
  * @param action An action in the `action_space` of the env.
  * @param movements The allowed movements of the env.
  */

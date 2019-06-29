@@ -1,19 +1,19 @@
 import { TapeAlgorithmicEnv, decodeAction } from './AlgorithmicEnv';
 
 /**
- * A 1D algorithmic environment where the target is the reverse 
+ * A 1D algorithmic environment where the target is the reverse
  * of the observation.
- * 
+ *
  * @example
  * ```typescript
  * import {Reverse} from "gym-js";
  * const env = new Reverse();
- * 
+ *
  * console.log(env.action_space.toString());
- * > 
+ * >
  * console.log(env.observation_space.toString());
- * > 
- * 
+ * >
+ *
  * let action = env.action_space.sample();
  * let [obs, rew, done, info] = env.step(action);
  * ```
@@ -36,7 +36,7 @@ function demo() {
     if (!done) {
       // game.render();
       outerEnv.innerHTML = game.renderHTML();
-      let action = game.tuple_action_space.sample();
+      let action = game.action_space.sample();
       console.log('Action:\n', decodeAction(action, game.MOVEMENTS));
       let stepInfo = game.step(action);
       console.log('Env obs:', stepInfo[0]);
