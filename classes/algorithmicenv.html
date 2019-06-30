@@ -75,7 +75,10 @@
 						the predicted character
 					]</p>
 					<p>Observations: The character under the read cursor.
-					Equivalent to <code>base</code> + 1.</p>
+						A total of <code>base</code> + 1 with an extra out-of-bounds
+					character.</p>
+					<p>The environment terminates immediately when an incorrect item
+					is written or when the entire output is successfully outputted.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
@@ -127,7 +130,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="algorithmicenv.html#reward_range" class="tsd-kind-icon">reward_<wbr>range</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="algorithmicenv.html#target" class="tsd-kind-icon">target</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="algorithmicenv.html#targetlength" class="tsd-kind-icon">target<wbr>Length</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-not-exported"><a href="algorithmicenv.html#tuple_action_space" class="tsd-kind-icon">tuple_<wbr>action_<wbr>space</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-not-exported">
@@ -161,7 +163,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:17</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:21</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -198,7 +200,7 @@
 					<div class="tsd-signature tsd-kind-icon">MIN_<wbr>LENGTH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:29</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:32</li>
 						</ul>
 					</aside>
 				</section>
@@ -208,18 +210,18 @@
 					<div class="tsd-signature tsd-kind-icon">MOVEMENTS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:28</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:31</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
 					<a name="action_space" class="tsd-anchor"></a>
 					<h3>action_<wbr>space</h3>
-					<div class="tsd-signature tsd-kind-icon">action_<wbr>space<span class="tsd-signature-symbol">:</span> <a href="discrete.html" class="tsd-signature-type">Discrete</a></div>
+					<div class="tsd-signature tsd-kind-icon">action_<wbr>space<span class="tsd-signature-symbol">:</span> <a href="discretetuple.html" class="tsd-signature-type">DiscreteTuple</a></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#action_space">action_space</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:24</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:27</li>
 						</ul>
 					</aside>
 				</section>
@@ -229,7 +231,7 @@
 					<div class="tsd-signature tsd-kind-icon">agent<wbr>Actions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:36</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:39</li>
 						</ul>
 					</aside>
 				</section>
@@ -239,7 +241,7 @@
 					<div class="tsd-signature tsd-kind-icon">base<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:27</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:30</li>
 						</ul>
 					</aside>
 				</section>
@@ -249,7 +251,7 @@
 					<div class="tsd-signature tsd-kind-icon">charmap<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:30</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:33</li>
 						</ul>
 					</aside>
 				</section>
@@ -259,7 +261,7 @@
 					<div class="tsd-signature tsd-kind-icon">cursor<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:34</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:37</li>
 						</ul>
 					</aside>
 				</section>
@@ -269,7 +271,7 @@
 					<div class="tsd-signature tsd-kind-icon">done<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:31</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:34</li>
 						</ul>
 					</aside>
 				</section>
@@ -279,7 +281,7 @@
 					<div class="tsd-signature tsd-kind-icon">input<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:35</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:38</li>
 						</ul>
 					</aside>
 				</section>
@@ -290,7 +292,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#observation_space">observation_space</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:25</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:28</li>
 						</ul>
 					</aside>
 				</section>
@@ -300,7 +302,7 @@
 					<div class="tsd-signature tsd-kind-icon">reward<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:32</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:35</li>
 						</ul>
 					</aside>
 				</section>
@@ -311,7 +313,7 @@
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#reward_range">reward_range</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:26</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:29</li>
 						</ul>
 					</aside>
 				</section>
@@ -321,7 +323,7 @@
 					<div class="tsd-signature tsd-kind-icon">target<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:33</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:36</li>
 						</ul>
 					</aside>
 				</section>
@@ -331,17 +333,7 @@
 					<div class="tsd-signature tsd-kind-icon">target<wbr>Length<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:37</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-					<a name="tuple_action_space" class="tsd-anchor"></a>
-					<h3>tuple_<wbr>action_<wbr>space</h3>
-					<div class="tsd-signature tsd-kind-icon">tuple_<wbr>action_<wbr>space<span class="tsd-signature-symbol">:</span> <a href="discretetuple.html" class="tsd-signature-type">DiscreteTuple</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:23</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:40</li>
 						</ul>
 					</aside>
 				</section>
@@ -359,7 +351,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#close">close</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:42</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:45</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -376,7 +368,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:48</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:51</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -399,7 +391,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:44</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:47</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -416,7 +408,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:45</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:48</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -440,7 +432,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#render">render</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:40</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:43</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -457,7 +449,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:41</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:44</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -475,7 +467,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#reset">reset</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:39</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:42</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">tf.Tensor</span></h4>
@@ -493,7 +485,7 @@
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#seed">seed</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:43</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:46</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -516,7 +508,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:47</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:50</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -539,7 +531,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:38</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:41</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -562,7 +554,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:46</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:49</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">tf.Tensor</span></h4>
@@ -630,9 +622,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
 								<a href="algorithmicenv.html#targetlength" class="tsd-kind-icon">target<wbr>Length</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-not-exported">
-								<a href="algorithmicenv.html#tuple_action_space" class="tsd-kind-icon">tuple_<wbr>action_<wbr>space</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
 								<a href="algorithmicenv.html#close" class="tsd-kind-icon">close</a>

@@ -88,9 +88,9 @@
 <span class="hljs-keyword">const</span> env = <span class="hljs-keyword">new</span> FrozenLake(mapSize, p, isSlippery);
 
 <span class="hljs-built_in">console</span>.log(env.action_space.toString());
-&gt;
+&gt; Discrete: <span class="hljs-number">4</span>    <span class="hljs-comment">// 4 possible movements</span>
 <span class="hljs-built_in">console</span>.log(env.observation_space.toString());
-&gt;
+&gt; Discrete: <span class="hljs-number">16</span>   <span class="hljs-comment">// 4x4 map</span>
 
 <span class="hljs-keyword">let</span> action = env.action_space.sample();
 <span class="hljs-keyword">let</span> [obs, rew, done, info] = env.step(action);</code></pre>

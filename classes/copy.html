@@ -70,15 +70,25 @@
 						<p>A 1D algorithmic environment where the target is the same
 						as the observation.</p>
 					</div>
+					<p>The 1D <a href="tapealgorithmicenv.html">TapeAlgorithmicEnv</a> has an <code>action_space</code> tuple
+						with shape [2,2,10]. The first item is the chosen movement,
+						either left or right. The second item is whether to write
+						to the current position or not. Finally, the last value is
+						the actual value to write to the tape in the current position.
+						The environment terminates immediately when an incorrect item
+						is written or when the entire output is successfully outputted.
+						The <code>MIN_LENGTH</code> of the tape is <code>5</code> plus a random number between
+					0 and 2.</p>
 					<dl class="tsd-comment-tags">
 						<dt>example</dt>
 						<dd><pre><code class="language-typescript"><span class="hljs-keyword">import</span> {Copy} <span class="hljs-keyword">from</span> <span class="hljs-string">"gym-js"</span>;
-<span class="hljs-keyword">const</span> env = <span class="hljs-keyword">new</span> Copy();
+<span class="hljs-keyword">let</span> base = <span class="hljs-number">10</span>;
+<span class="hljs-keyword">const</span> env = <span class="hljs-keyword">new</span> Copy(base);
 
 <span class="hljs-built_in">console</span>.log(env.action_space.toString());
-&gt;
+&gt; DiscreteTuple: <span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">10</span>
 <span class="hljs-built_in">console</span>.log(env.observation_space.toString());
-&gt;
+&gt; Discrete: <span class="hljs-number">11</span>
 
 <span class="hljs-keyword">let</span> action = env.action_space.sample();
 <span class="hljs-keyword">let</span> [obs, rew, done, info] = env.step(action);</code></pre>
@@ -132,7 +142,6 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="copy.html#reward_range" class="tsd-kind-icon">reward_<wbr>range</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="copy.html#target" class="tsd-kind-icon">target</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="copy.html#targetlength" class="tsd-kind-icon">target<wbr>Length</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="copy.html#tuple_action_space" class="tsd-kind-icon">tuple_<wbr>action_<wbr>space</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -160,7 +169,7 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Copy<span class="tsd-signature-symbol">(</span>base<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="copy.html" class="tsd-signature-type">Copy</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Copy<span class="tsd-signature-symbol">(</span>base<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="copy.html" class="tsd-signature-type">Copy</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -168,13 +177,13 @@
 								<p>Inherited from <a href="tapealgorithmicenv.html">TapeAlgorithmicEnv</a>.<a href="tapealgorithmicenv.html#constructor">constructor</a></p>
 								<p>Overrides <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:58</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:64</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>base: <span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> base: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="copy.html" class="tsd-signature-type">Copy</a></h4>
@@ -191,7 +200,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#min_length">MIN_LENGTH</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:29</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:32</li>
 						</ul>
 					</aside>
 				</section>
@@ -203,19 +212,19 @@
 						<p>Inherited from <a href="tapealgorithmicenv.html">TapeAlgorithmicEnv</a>.<a href="tapealgorithmicenv.html#movements">MOVEMENTS</a></p>
 						<p>Overrides <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#movements">MOVEMENTS</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:57</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:63</li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 					<a name="action_space" class="tsd-anchor"></a>
 					<h3>action_<wbr>space</h3>
-					<div class="tsd-signature tsd-kind-icon">action_<wbr>space<span class="tsd-signature-symbol">:</span> <a href="discrete.html" class="tsd-signature-type">Discrete</a></div>
+					<div class="tsd-signature tsd-kind-icon">action_<wbr>space<span class="tsd-signature-symbol">:</span> <a href="discretetuple.html" class="tsd-signature-type">DiscreteTuple</a></div>
 					<aside class="tsd-sources">
 						<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#action_space">action_space</a></p>
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#action_space">action_space</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:24</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:27</li>
 						</ul>
 					</aside>
 				</section>
@@ -226,7 +235,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#agentactions">agentActions</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:36</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:39</li>
 						</ul>
 					</aside>
 				</section>
@@ -237,7 +246,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#base">base</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:27</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:30</li>
 						</ul>
 					</aside>
 				</section>
@@ -248,7 +257,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#charmap">charmap</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:30</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:33</li>
 						</ul>
 					</aside>
 				</section>
@@ -260,7 +269,7 @@
 						<p>Inherited from <a href="tapealgorithmicenv.html">TapeAlgorithmicEnv</a>.<a href="tapealgorithmicenv.html#cursor">cursor</a></p>
 						<p>Overrides <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#cursor">cursor</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:58</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:64</li>
 						</ul>
 					</aside>
 				</section>
@@ -271,7 +280,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#done">done</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:31</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:34</li>
 						</ul>
 					</aside>
 				</section>
@@ -282,7 +291,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#inputdata">inputData</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:35</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:38</li>
 						</ul>
 					</aside>
 				</section>
@@ -294,7 +303,7 @@
 						<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#observation_space">observation_space</a></p>
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#observation_space">observation_space</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:25</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:28</li>
 						</ul>
 					</aside>
 				</section>
@@ -305,7 +314,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#reward">reward</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:32</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:35</li>
 						</ul>
 					</aside>
 				</section>
@@ -317,7 +326,7 @@
 						<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#reward_range">reward_range</a></p>
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#reward_range">reward_range</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:26</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:29</li>
 						</ul>
 					</aside>
 				</section>
@@ -328,7 +337,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#target">target</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:33</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:36</li>
 						</ul>
 					</aside>
 				</section>
@@ -339,18 +348,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#targetlength">targetLength</a></p>
 						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:37</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="tuple_action_space" class="tsd-anchor"></a>
-					<h3>tuple_<wbr>action_<wbr>space</h3>
-					<div class="tsd-signature tsd-kind-icon">tuple_<wbr>action_<wbr>space<span class="tsd-signature-symbol">:</span> <a href="discretetuple.html" class="tsd-signature-type">DiscreteTuple</a></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#tuple_action_space">tuple_action_space</a></p>
-						<ul>
-							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:23</li>
+							<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:40</li>
 						</ul>
 					</aside>
 				</section>
@@ -369,7 +367,7 @@
 								<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#close">close</a></p>
 								<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#close">close</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:42</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:45</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -388,7 +386,7 @@
 								<p>Inherited from <a href="tapealgorithmicenv.html">TapeAlgorithmicEnv</a>.<a href="tapealgorithmicenv.html#geninputdata">genInputData</a></p>
 								<p>Overrides <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#geninputdata">genInputData</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:62</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:68</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -412,7 +410,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#getstrobs">getStrObs</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:44</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:47</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -431,7 +429,7 @@
 								<p>Inherited from <a href="tapealgorithmicenv.html">TapeAlgorithmicEnv</a>.<a href="tapealgorithmicenv.html#move">move</a></p>
 								<p>Overrides <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#move">move</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:60</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:66</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -456,7 +454,7 @@
 								<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#render">render</a></p>
 								<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#render">render</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:40</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:43</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -474,7 +472,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#renderhtml">renderHTML</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:41</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:44</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -493,7 +491,7 @@
 								<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#reset">reset</a></p>
 								<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#reset">reset</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:39</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:42</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">tf.Tensor</span></h4>
@@ -512,7 +510,7 @@
 								<p>Implementation of <a href="../interfaces/env.html">Env</a>.<a href="../interfaces/env.html#seed">seed</a></p>
 								<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#seed">seed</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:43</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:46</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -536,7 +534,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#settarget">setTarget</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/Copy.d.ts:21</li>
+									<li>Defined in envs/algorithmic/Copy.d.ts:32</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -560,7 +558,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#step">step</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:38</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:41</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -585,7 +583,7 @@
 								<p>Inherited from <a href="tapealgorithmicenv.html">TapeAlgorithmicEnv</a>.<a href="tapealgorithmicenv.html#toobs">toObs</a></p>
 								<p>Overrides <a href="algorithmicenv.html">AlgorithmicEnv</a>.<a href="algorithmicenv.html#toobs">toObs</a></p>
 								<ul>
-									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:61</li>
+									<li>Defined in envs/algorithmic/AlgorithmicEnv.d.ts:67</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -656,9 +654,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="copy.html#targetlength" class="tsd-kind-icon">target<wbr>Length</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="copy.html#tuple_action_space" class="tsd-kind-icon">tuple_<wbr>action_<wbr>space</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="copy.html#close" class="tsd-kind-icon">close</a>

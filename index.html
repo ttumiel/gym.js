@@ -65,47 +65,18 @@
 				<h1 id="gym-js">gym.js</h1>
 				<p><strong>Warning</strong>: Under active development. APIs may change.</p>
 				<p>A browser-based reinforcement learning environment. Based off of OpenAI&#39;s <a href="https://github.com/openai/gym">Gym</a>.</p>
+				<p><a href="https://tom2718.github.io/gym.js/index.html">See the docs</a></p>
+				<h2 id="installation">Installation</h2>
+				<p>Install with <code>npm</code>:</p>
+				<pre><code class="language-bash">npm install gym-js</code></pre>
+				<p>And import environments from the module:</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">import</span> { FrozenLake } <span class="hljs-keyword">from</span> <span class="hljs-string">"gym-js"</span>;</code></pre>
 				<h2 id="contributing">Contributing</h2>
 				<p>Please make a pull request for any contribution. In particular, you can reimplement <code>gym</code> environments, add test cases and patch any bugs you might find. Additionally, if you have any suggestions on the API, or the library in general, you can open an issue.</p>
 				<h2 id="adding-a-new-environment">Adding a New Environment</h2>
 				<p><a href="https://github.com/Tom2718/gym.js/tree/master/src/envs#environments">See here.</a></p>
 				<h2 id="future-plans">Future Plans</h2>
 				<p>The aim for this library is to match <code>gym</code> with both functionality and environments. A list of environments still to be added is in the <a href="https://github.com/Tom2718/gym.js/tree/master/src/envs#environments"><code>env</code></a> folder.</p>
-				<p>TODO:</p>
-				<ul>
-					<li>Fix ts lint</li>
-					<li>avoid importing phaser without defining window (i.e. for static envs)</li>
-					<li>Add tests</li>
-					<li>add docs</li>
-					<li>add more games (particularly legacy from Gym)</li>
-					<li>rename and rearrange <code>render</code> and <code>renderhtml</code> funcs</li>
-					<li>move into dist folder</li>
-					<li>add install details</li>
-					<li>start working on a develop branch</li>
-				</ul>
-				<p>Pioneer TODO:</p>
-				<ul>
-					<li><p>Other:</p>
-						<ul>
-							<li>blog post</li>
-						</ul>
-					</li>
-					<li><p><strong>This week</strong>:</p>
-						<ul>
-							<li>build out rl algos in fast-rl lib</li>
-							<li>add tutorial to the interface</li>
-							<li>add env documentation</li>
-							<li>Add list of future envs and algos to show progress</li>
-						</ul>
-					</li>
-					<li><p><strong>Next Week</strong>:</p>
-						<ul>
-							<li>how to convert gym.js to interactive python env (i.e. can I convert tfjs tensor to pytf tensor)</li>
-							<li>Update interface with other envs</li>
-							<li>get in contact with organisations for an inaugural competition</li>
-						</ul>
-					</li>
-				</ul>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
