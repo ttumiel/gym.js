@@ -5,15 +5,15 @@ import * as tf from '@tensorflow/tfjs';
  * The main Gym.js class. It encapsulates an environment with
  * arbitrary behind-the-scenes dynamics. An environment can be
  * partially or fully observed.
- * 
+ *
  * This class is derived from OpenAI's [Gym](https://github.com/openai/gym)
- * and thus the API is very similar and in most cases the same. The key 
+ * and thus the API is very similar and in most cases the same. The key
  * differences are as follows:
- * - gym.js uses tensorflow.js for tensor manipulation instead of numpy. 
+ * - gym.js uses tensorflow.js for tensor manipulation instead of numpy.
  *   As a result, all of the returned datatypes are `tf.Tensor` in place
  *   of `np.array`.
  * - The `render` method prints the environment to the console. `renderHTML`
- *   either returns an HTML string or, in the case of a Phaser env, renders 
+ *   either returns an HTML string or, in the case of a Phaser env, renders
  *   on the canvas.
  *
  *  The main API methods that users of this class need to know are:
@@ -46,7 +46,7 @@ interface Env {
 
   /**
    * Steps the environment according to some action.
-   * 
+   *
    * @param action - The action to take (in action_space)
    * @returns - [observation, reward, done, info] tuple
    */
@@ -54,7 +54,7 @@ interface Env {
 
   /**
    * Overloaded `step` function for Phaser Games.
-   * 
+   *
    * @param time - Phaser time
    * @param delta - Phaser time delta
    * @param action - The action to take (in action_space)
@@ -80,10 +80,28 @@ interface Env {
 
   /**
    * Seed the randomness in the environment
-   * 
+   *
    * @param seed - The seed value
    */
   seed(seed: number): void;
 }
 
 export default Env;
+
+class Wrapper{
+  constructor(env: Env){
+    this.env = env;
+    this.action_space = env.action_space;
+    this.observation_space = env.observation_space;
+    this.step = env.step;
+    this.reset = env.reset;
+  }
+
+  env: Env;
+  action_space: Space;
+  observation_space: Space;
+  step: any;
+  reset: any;
+}
+
+export { Wrapper };
