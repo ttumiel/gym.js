@@ -100,8 +100,8 @@ class Wrapper{
   env: Env;
   action_space: Space;
   observation_space: Space;
-  step: any;
-  reset: any;
+  step: (action: number) => [tf.Tensor, number, boolean, {}];
+  reset: () => tf.Tensor;
 }
 
 export { Wrapper };
