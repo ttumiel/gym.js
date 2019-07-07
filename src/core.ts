@@ -88,7 +88,24 @@ interface Env {
 
 export default Env;
 
+/**
+ * Wrap an [[Env]]
+ *
+ * This class is constructed with any gym.js `Env`. The methods
+ * of the wrapper will be the same as that of the env. This
+ * class can be used to preprocess the outputs of any of the
+ * env methods by changing the call to the method.
+ *
+ * @example
+ * ```typescript
+ * import {Wrapper, FrozenLake} from "gym-js";
+ * env = new Wrapper(new FrozenLake());
+ * ```
+ */
 class Wrapper{
+  /**
+   * @param env - The environment to wrap.
+   */
   constructor(env: Env){
     this.env = env;
     this.action_space = env.action_space;
