@@ -1,6 +1,6 @@
 {
   "name": "gym-js",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A JavaScript Environment for Reinforcement Learning.",
   "main": "dist/env.js",
   "types": "dist/env.d.ts",
