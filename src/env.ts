@@ -16,3 +16,8 @@ import Snake from './envs/arcade/snake/SnakeGame';
 
 export { Snake };
 // -----------------------------------------------
+
+// Core
+import Env, { Wrapper } from './core';
+
+export { Env, Wrapper };
