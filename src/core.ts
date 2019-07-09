@@ -102,23 +102,27 @@ export default Env;
  * env = new Wrapper(new FrozenLake());
  * ```
  */
-class Wrapper{
+class Wrapper {
   /**
-   * @param env - The environment to wrap.
+   * @param env - The environment to wrap. Can also be another `Wrapper`.
    */
-  constructor(env: Env){
+  constructor(env: Env | Wrapper) {
     this.env = env;
     this.action_space = env.action_space;
     this.observation_space = env.observation_space;
-    this.step = env.step;
-    this.reset = env.reset;
   }
 
-  env: Env;
+  env: Env | Wrapper;
   action_space: Space;
   observation_space: Space;
-  step: (action: number) => [tf.Tensor, number, boolean, {}];
-  reset: () => tf.Tensor;
+
+  step(action: any): [any, any, any, any] {
+    return this.env.step(action);
+  }
+
+  reset(): any {
+    return this.env.reset();
+  }
 }
 
 export { Wrapper };
