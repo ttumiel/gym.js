@@ -125,4 +125,19 @@ class Wrapper {
   }
 }
 
-export { Wrapper };
+class ObservationWrapper extends Wrapper{
+  step(action: any): [any, any, any, any] {
+    let [obs,rew,done,info] = this.env.step(action);
+    return [this.observation(obs),rew,done,info];
+  }
+
+  reset(): any {
+    return this.observation(this.env.reset());
+  }
+
+  observation(obs: any): any{
+    return obs;
+  }
+}
+
+export { Wrapper, ObservationWrapper };
