@@ -123,6 +123,10 @@ class Wrapper {
   reset(): any {
     return this.env.reset();
   }
+
+  toString():string {
+    return `<Wrapper>${this.env.toString()}</Wrapper>`;
+  }
 }
 
 class ObservationWrapper extends Wrapper{
@@ -138,6 +142,40 @@ class ObservationWrapper extends Wrapper{
   observation(obs: any): any{
     return obs;
   }
+
+  toString():string {
+    return `<ObservationWrapper>${this.env.toString()}</ObservationWrapper>`;
+  }
 }
 
-export { Wrapper, ObservationWrapper };
+class ActionWrapper extends Wrapper{
+  step(action: any): [any, any, any, any] {
+    action = this.action(action);
+    return this.env.step(action);
+  }
+
+  action(act: any): any{
+    return act;
+  }
+
+  toString():string {
+    return `<ActionWrapper>${this.env.toString()}</ActionWrapper>`;
+  }
+}
+
+class RewardWrapper extends Wrapper {
+  step(action: any): [any, any, any, any] {
+    let [obs,rew,done,info] = this.env.step(action);
+    return [obs,this.reward(rew),done,info];
+  }
+
+  reward(rew: any): any{
+    return rew;
+  }
+
+  toString():string {
+    return `<RewardWrapper>${this.env.toString()}</RewardWrapper>`;
+  }
+}
+
+export { Wrapper, ObservationWrapper, ActionWrapper, RewardWrapper };

@@ -20,8 +20,8 @@ export { Copy, Reverse };
 // ===============================================
 
 // Core
-import Env, { Wrapper, ObservationWrapper } from './core';
-export { Env, Wrapper, ObservationWrapper };
+import Env, { Wrapper, ObservationWrapper, ActionWrapper, RewardWrapper } from './core';
+export { Env, Wrapper, ObservationWrapper, ActionWrapper, RewardWrapper };
 // -----------------------------------------------
 
 // Spaces
