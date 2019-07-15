@@ -1,6 +1,4 @@
-import { Wrapper } from '../env';
-import {FrozenLake} from "../env";
-
+import { Wrapper, FrozenLake } from '../env';
 
 describe('Wrapper', () => {
   let env = new FrozenLake(4,0.8,false);
@@ -9,7 +7,7 @@ describe('Wrapper', () => {
 
   it('reset', ()=>{
     expect(wrap.reset().dataSync())
-      .toEqual(copyEnv.reset().dataSync())
+      .toEqual(copyEnv.reset().dataSync());
   })
 
   it('step', ()=>{
@@ -18,15 +16,15 @@ describe('Wrapper', () => {
     let [envObs,envRew,envDone,envInfo] = copyEnv.step(action);
 
     expect(obs.dataSync())
-      .toEqual(envObs.dataSync())
+      .toEqual(envObs.dataSync());
 
     expect(rew)
-      .toEqual(envRew)
+      .toEqual(envRew);
 
     expect(done)
-      .toEqual(envDone)
+      .toEqual(envDone);
 
     expect(info)
-      .toEqual(envInfo)
+      .toEqual(envInfo);
   })
 });
