@@ -14,7 +14,7 @@ const defaultConfig = {
   title: 'Snake',
   width: 640,
   height: 480,
-  scene: [SnakeGame],
+  scene: SnakeGame,
   physics: {
     default: 'arcade',
     arcade: {
@@ -53,6 +53,13 @@ export default class Snake implements Env {
   constructor(config: {} = defaultConfig) {
     this.config = config;
     this.game = new Phaser.Game(config);
+
+    // Post render callback doesn't seem to work for stopping
+    // the game from running despite my best efforts.
+    // This is my current fix - it's hideous but until I
+    // find a better way to pause the game from running and
+    // step it manually, this is it.
+    setTimeout(()=>this.game.loop.sleep(), 200);
   }
 
   game: Phaser.Game;
@@ -99,13 +106,6 @@ export default class Snake implements Env {
   step(action: number): [tf.Tensor, number, boolean, {}] {
     let info = {};
 
-    if (this.renderDisplay) {
-      this.game.step(time, delta);
-    } else {
-      this.game.headlessStep(time, delta);
-    }
-
-    action = toNumLike(this.action_space.sample());
     console.assert(action >= 0 && action <= 3, 'The action you made is not in the action space!');
 
     if (this.done === true) {
@@ -116,6 +116,9 @@ export default class Snake implements Env {
     this.done = this._checkDone();
     this._setAction(action);
 
+    // Step the game
+    this.game.loop.tick();
+
     this.observation_space.set(this._getObs());
     let reward = this._getReward();
 
@@ -124,12 +127,14 @@ export default class Snake implements Env {
     }
 
     // this.observation_space.get().print();
+    this.game.loop.sleep()
 
     return [this.observation_space.get(), reward, this.done, info];
   }
 
   reset(config?:{}): tf.Tensor {
     this.game = new Phaser.Game(config !== undefined ? config : this.config);
+    this.game.loop.pause();
     this.observation_space.set(this._getObs());
     return this.observation_space.get();
   }
@@ -137,6 +142,7 @@ export default class Snake implements Env {
   render(value: boolean = true): void {
     this.config["type"] = value ? Phaser.WEBGL : Phaser.HEADLESS;
     this.game = new Phaser.Game(this.config);
+    this.game.loop.pause();
     this.renderDisplay = value;
   }
 
@@ -172,6 +178,11 @@ export default class Snake implements Env {
 
 function demo() {
   var game = new Snake();
+
+  setInterval(()=>{
+    let action = toNumLike(game.action_space.sample());
+    game.step(action);
+  },1000);
 }
 
 module.exports.demo = demo;
