@@ -33,6 +33,7 @@ abstract class AlgorithmicEnv implements Env {
     this.observation_space = new Discrete([this.base + 1]);
     this.charmap = range(base).map(i => String(i)); // range*rows for grid env
     this.charmap.push('_');
+    this.mustRender = false;
     // this.seed();
     this.reset();
   }
@@ -51,6 +52,9 @@ abstract class AlgorithmicEnv implements Env {
   inputData: any;
   agentActions: number[];
   targetLength: number;
+  renderMode: string;
+  mustRender: boolean;
+  HTMLData: string;
 
   step(action: actionSpace): [tf.Tensor, number, boolean, {}] {
     // Check that action is in action space!
@@ -73,6 +77,8 @@ abstract class AlgorithmicEnv implements Env {
     } else {
       console.warn('The environment has returned `done=True`. You should call `reset` before continuing.');
     }
+
+    this._attemptRender();
     return [this.observation_space.get(), this.reward, this.done, {}];
   }
 
@@ -85,29 +91,53 @@ abstract class AlgorithmicEnv implements Env {
     this.cursor = 0;
     this.agentActions = range(this.targetLength).map(() => -1);
     this.observation_space.set(this.toObs());
+    this._attemptRender();
     return this.observation_space.get();
   }
 
-  render(): void {
-    console.log('-'.repeat(20));
-    console.log('Input:', this.inputData.map(i => this.charmap[i]).join(''));
-    console.log('Target:', this.target.map(i => this.charmap[i]).join(''));
-    console.log('Predictions:', this.agentActions.map(i => (i === -1 ? '_' : this.charmap[i])).join(''));
-    console.log('Obs:', this.getStrObs());
-    console.log('-'.repeat(20));
+  /**
+   * Set the environment to render to a particular output ("html" or "console").
+   *
+   * @param mode - To render in a particular mode - either "html" or "console".
+   */
+  render(mode:string="html"): void {
+    const renderModes = ["html", "console"];
+    console.assert(renderModes.includes(mode), `Mode ${mode} is not recognized, try any of ${renderModes.toString()}.`)
+    this.mustRender = true;
+    this.renderMode = mode;
+  }
+
+  private _attemptRender():void{
+    if(this.mustRender){
+      if (this.renderMode === "html"){
+        this.HTMLData = `
+        <style>.currentState{background-color: red}</style>
+        <div class="game-input"><span${this.inputData.map((v,i) => (i==this.cursor ? ' class="currentState">' : ">")
+                                                              + this.charmap[v]).join("</span><span")}</span></div>
+        <div class="game-target">${this.target.map(i => this.charmap[i]).join("")}</div>
+        <div class="agent-preds">${this.agentActions.map(i => "<span>" + (i===-1 ? "_" : this.charmap[i])+"</span>").join("")}</div>
+        `
+      } else if (this.renderMode === "console") {
+        console.log('-'.repeat(20));
+        console.log('Input:', this.inputData.map(i => this.charmap[i]).join(''));
+        console.log('Target:', this.target.map(i => this.charmap[i]).join(''));
+        console.log('Predictions:', this.agentActions.map(i => (i === -1 ? '_' : this.charmap[i])).join(''));
+        console.log('Obs:', this.getStrObs());
+        console.log('-'.repeat(20));
+      }
+    }
   }
 
   renderHTML(): string {
-    return `
-    <style>.currentState{background-color: red}</style>
-    <div class="game-input"><span${this.inputData.map((v,i) => (i==this.cursor ? ' class="currentState">' : ">")
-                                                          + this.charmap[v]).join("</span><span")}</span></div>
-    <div class="game-target">${this.target.map(i => this.charmap[i]).join("")}</div>
-    <div class="agent-preds">${this.agentActions.map(i => "<span>" + (i===-1 ? "_" : this.charmap[i])+"</span>").join("")}</div>
-    `
+    return this.HTMLData;
   }
 
-  close(): void {}
+  close(): void {
+    console.clear();
+    this.mustRender = false;
+    this.HTMLData = "";
+  }
+
   seed(seed: number): void {}
 
   getStrObs(): string {

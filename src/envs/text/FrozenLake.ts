@@ -46,6 +46,7 @@ export default class FrozenLake implements Env {
     this.done = false;
     this.row = 0;
     this.col = 0;
+    this.mustRender = false;
 
     if (mapSize === 8) {
       this.mapSize = mapSize;
@@ -70,6 +71,9 @@ export default class FrozenLake implements Env {
   p: number;
   row: number;
   col: number;
+  mustRender: boolean;
+  renderMode: string;
+  HTMLData: string;
 
   step(action: number): [tf.Tensor, number, boolean, {}] {
     let reward = 0;
@@ -92,6 +96,9 @@ export default class FrozenLake implements Env {
     } else {
       console.warn('This environment has terminated. You should call `reset` before continuing.');
     }
+
+    this._callRender();
+
     return [this.observation_space.get(), reward, this.done, {}];
   }
 
@@ -100,26 +107,49 @@ export default class FrozenLake implements Env {
     this.observation_space.set(tf.tensor([0]));
     this.row = 0;
     this.col = 0;
+    this._callRender();
     return this.observation_space.get();
   }
 
-  render(): void {
-    console.log(this.observation_space.get().dataSync());
+  /**
+   * Set the environment to render to a particular output ("html" or "console").
+   *
+   * @param mode - To render in a particular mode - either "html" or "console".
+   */
+  render(mode:string="html"): void {
+    const renderModes = ["html", "console"];
+    console.assert(renderModes.includes(mode), `Mode ${mode} is not recognized, try any of ${renderModes.toString()}.`)
+    this.mustRender = true;
+    this.renderMode = mode;
+  }
+
+  private _callRender():void{
+    if(this.mustRender){
+      if (this.renderMode === "html"){
+        let currentObs = this.observation_space.get().dataSync()[0];
+        this.HTMLData = "<style>.currentState{background-color: red}</style>" +
+          this.map.map((row, rowId) => (
+            "<div>" + row.map((col, colId) => (
+              "<span" +
+              ((colId + (rowId * this.mapSize) == currentObs) ? " class=\"currentState\"" : "") +
+              ">" + col + "</span>"
+            )).join("") + "</div>"
+          )).join("");
+      } else if (this.renderMode === "console") {
+        console.log(this.observation_space.get().dataSync());
+      }
+    }
   }
 
   renderHTML(): string {
-    let currentObs = this.observation_space.get().dataSync()[0];
-    return "<style>.currentState{background-color: red}</style>" +
-      this.map.map((row, rowId) => (
-        "<div>" + row.map((col, colId) => (
-          "<span" +
-          ((colId + (rowId * this.mapSize) == currentObs) ? " class=\"currentState\"" : "") +
-          ">" + col + "</span>"
-        )).join("") + "</div>"
-      )).join("");
+    return this.HTMLData;
   }
 
-  close(): void {}
+  close(): void {
+    console.clear();
+    this.mustRender = false;
+    this.HTMLData = "";
+  }
 
   seed(seed: number): void {}
 
@@ -170,6 +200,7 @@ export default class FrozenLake implements Env {
 function demo(): void {
   let game = new FrozenLake(8, 0.8, false);
   game.reset();
+  game.render();
   let done = false;
 
   let outerEnv = document.getElementById('game');
