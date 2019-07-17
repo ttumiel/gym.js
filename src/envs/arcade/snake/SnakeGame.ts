@@ -4,6 +4,7 @@
 
 import * as Phaser from "phaser";
 import Food from "./Food";
+import { randint } from "../../../utils";
 
 var UP = 0;
 var DOWN = 1;
@@ -22,7 +23,10 @@ class SnakeBody extends Phaser.Scene {
   heading;
   direction;
 
-  constructor(scene, x, y) {
+  gameWidth: number;
+  gameHeight: number;
+
+  constructor(scene, x, y, width, height) {
     super({
       key: 'GameScene',
     });
@@ -43,6 +47,12 @@ class SnakeBody extends Phaser.Scene {
 
     this.heading = RIGHT;
     this.direction = RIGHT;
+
+    this.grow();
+    this.grow();
+
+    this.gameWidth = width;
+    this.gameHeight = height;
   }
 
   update(time: number): boolean {
@@ -85,19 +95,19 @@ class SnakeBody extends Phaser.Scene {
      */
     switch (this.heading) {
       case LEFT:
-        this.headPosition.x = Phaser.Math.Wrap(this.headPosition.x - 1, 0, 40);
+        this.headPosition.x = Phaser.Math.Wrap(this.headPosition.x - 1, 0, this.gameWidth);
         break;
 
       case RIGHT:
-        this.headPosition.x = Phaser.Math.Wrap(this.headPosition.x + 1, 0, 40);
+        this.headPosition.x = Phaser.Math.Wrap(this.headPosition.x + 1, 0, this.gameWidth);
         break;
 
       case UP:
-        this.headPosition.y = Phaser.Math.Wrap(this.headPosition.y - 1, 0, 30);
+        this.headPosition.y = Phaser.Math.Wrap(this.headPosition.y - 1, 0, this.gameHeight);
         break;
 
       case DOWN:
-        this.headPosition.y = Phaser.Math.Wrap(this.headPosition.y + 1, 0, 30);
+        this.headPosition.y = Phaser.Math.Wrap(this.headPosition.y + 1, 0, this.gameHeight);
         break;
     }
 
@@ -176,15 +186,22 @@ export default class SnakeGame extends Phaser.Scene {
   snake;
   food;
   cursors;
+  gameWidth: number;
+  gameHeight: number;
 
   preload() {
     this.load.image('block', './src/envs/arcade/snake/block.png');
   }
 
   create() {
-    this.food = new Food(this, 3, 4);
+    this.gameWidth = Math.floor(Number(this.game.config.width)/16);
+    this.gameHeight = Math.floor(Number(this.game.config.height)/16);
 
-    this.snake = new SnakeBody(this, 8, 8); // change to random initialisation
+    this.food = new Food(this, randint(this.gameWidth),
+    randint(this.gameHeight));
+
+    this.snake = new SnakeBody(this, randint(this.gameWidth),
+    randint(this.gameHeight), this.gameWidth, this.gameHeight);
 
     // Create keyboard controls
     if (this.mode === 'interactive') {
@@ -254,10 +271,10 @@ export default class SnakeGame extends Phaser.Scene {
     //  A Grid we'll use to reposition the food each time it's eaten
     var testGrid = [];
 
-    for (var y = 0; y < 30; y++) {
+    for (var y = 0; y < this.gameHeight; y++) {
       testGrid[y] = [];
 
-      for (var x = 0; x < 40; x++) {
+      for (var x = 0; x < this.gameWidth; x++) {
         testGrid[y][x] = true;
       }
     }
@@ -267,8 +284,8 @@ export default class SnakeGame extends Phaser.Scene {
     //  Purge out false positions
     var validLocations = [];
 
-    for (var y = 0; y < 30; y++) {
-      for (var x = 0; x < 40; x++) {
+    for (var y = 0; y < this.gameHeight; y++) {
+      for (var x = 0; x < this.gameWidth; x++) {
         if (testGrid[y][x] === true) {
           //  Is this position valid for food? If so, add it here ...
           validLocations.push({ x: x, y: y });
