@@ -6,22 +6,23 @@ import * as Phaser from "phaser";
 import SnakeGame from './SnakeGame';
 import Env from '../../../core';
 import Discrete from '../../../spaces/discrete';
-import Space from '../../../spaces/space';
 import * as tf from '@tensorflow/tfjs';
 import { toNumLike } from '../../../utils';
+import { PHASER_PARENT, validateConfig } from '../../../PhaserUtils';
 
 const defaultConfig = {
   title: 'Snake',
   width: 640,
   height: 480,
   scene: SnakeGame,
+  parent: PHASER_PARENT,
+  backgroundColor: '#f4e542',
   physics: {
     default: 'arcade',
     arcade: {
       debug: false,
     },
-  },
-  backgroundColor: '#f4e542',
+  }
 };
 
 /**
@@ -37,9 +38,9 @@ const defaultConfig = {
  * const env = new Snake();
  *
  * console.log(env.action_space.toString());
- * >
+ * > Discrete [4]
  * console.log(env.observation_space.toString());
- * >
+ * > Discrete [640, 480, 3]
  *
  * let action = env.action_space.sample();
  * let [obs, rew, done, info] = env.step(action);
@@ -51,7 +52,7 @@ export default class Snake implements Env {
    * the default config below.
    */
   constructor(config: {} = defaultConfig) {
-    this.config = config;
+    this.config = validateConfig(config, defaultConfig);
     this.game = new Phaser.Game(config);
 
     // Post render callback doesn't seem to work for stopping
@@ -73,12 +74,12 @@ export default class Snake implements Env {
    * 3. down
    * The snake is not able to move opposite its current direction.
    */
-  action_space: Space = new Discrete([4]);
+  action_space: Discrete = new Discrete([4]);
 
   /**
    * The pixel values of the game (640x480).
    */
-  observation_space: Space = new Discrete([640, 480, 3]);
+  observation_space: Discrete = new Discrete([640, 480, 3]);
 
   /**
    * The value of eating the food:
@@ -86,7 +87,7 @@ export default class Snake implements Env {
    * - -1 for crashing into itself
    * - 0 else
    */
-  reward_range: Space = new Discrete([3]);
+  reward_range: Discrete = new Discrete([3]);
 
   renderDisplay: boolean = true;
   done: boolean = false;
@@ -126,23 +127,24 @@ export default class Snake implements Env {
       console.info('Reward received: ' + reward.toString());
     }
 
-    // this.observation_space.get().print();
-    this.game.loop.sleep()
-
     return [this.observation_space.get(), reward, this.done, info];
   }
 
   reset(config?:{}): tf.Tensor {
-    this.game = new Phaser.Game(config !== undefined ? config : this.config);
-    this.game.loop.pause();
+    this.game.destroy(true);
+    if (config !== undefined)
+      this.config = validateConfig(config, defaultConfig);
+    this.game = new Phaser.Game(this.config);
+    setTimeout(()=>this.game.loop.sleep(), 200);
     this.observation_space.set(this._getObs());
     return this.observation_space.get();
   }
 
   render(value: boolean = true): void {
+    this.game.destroy(true);
     this.config["type"] = value ? Phaser.WEBGL : Phaser.HEADLESS;
     this.game = new Phaser.Game(this.config);
-    this.game.loop.pause();
+    setTimeout(()=>this.game.loop.sleep(), 200);
     this.renderDisplay = value;
   }
 
