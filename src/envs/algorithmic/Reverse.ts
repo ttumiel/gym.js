@@ -40,12 +40,12 @@ export default class Reverse extends TapeAlgorithmicEnv {
  */
 function demo() {
   let game = new Reverse(2);
+  game.render();
   let done = false;
 
   let outerEnv = document.getElementById('game');
   window.setInterval(() => {
     if (!done) {
-      // game.render();
       outerEnv.innerHTML = game.renderHTML();
       let action = game.action_space.sample();
       console.log('Action:\n', decodeAction(action, game.MOVEMENTS));
