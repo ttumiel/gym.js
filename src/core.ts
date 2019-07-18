@@ -53,16 +53,6 @@ interface Env {
   step(action: number): [tf.Tensor, number, boolean, {}];
 
   /**
-   * Overloaded `step` function for Phaser Games.
-   *
-   * @param time - Phaser time
-   * @param delta - Phaser time delta
-   * @param action - The action to take (in action_space)
-   * @returns - [observation, reward, done, info] tuple
-   */
-  step(time: number, delta: number, action: number): [tf.Tensor, number, boolean, {}];
-
-  /**
    * Restore the environment to a random starting state
    * @returns The initial observation
    */
