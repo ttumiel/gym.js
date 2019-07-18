@@ -13,8 +13,8 @@ export { Copy, Reverse };
 // -----------------------------------------------
 
 // Arcade envs
-// import Snake from './envs/arcade/snake/SnakeGame';
-// export { Snake };
+import Snake from './envs/arcade/snake/Snake';
+export { Snake };
 // -----------------------------------------------
 
 // ===============================================
