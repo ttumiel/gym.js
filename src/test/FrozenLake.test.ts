@@ -10,4 +10,9 @@ describe('FrozenLake', () => {
   it('observation space', () => {
     expect(env.observation_space.length).toEqual(16);
   });
+
+  it('steps', () => {
+    let action = env.action_space.sample();
+    env.step(action);
+  })
 });
