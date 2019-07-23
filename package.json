@@ -11,8 +11,7 @@
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
     "demo": "webpack --watch & live-server --port=8085",
-    "docs": "tsc && typedoc dist",
-    "deploy-docs": "gh-pages -d docs"
+    "docs": "typedoc ./src"
   },
   "keywords": [
     "reinforcement learning"

@@ -10,10 +10,12 @@
     "include": ["src"],
     "exclude": ["node_modules", "**/test/*"],
     "typedocOptions": {
-      "includeDeclarations": true,
+      "theme": "markdown",
+      "platform": "docusaurus",
       "excludeExternals": true,
+      "ignoreCompilerErrors": true,
       "mode": "file",
       "name": "gym.js",
       "out": "docs"
-  }
+    }
   }
