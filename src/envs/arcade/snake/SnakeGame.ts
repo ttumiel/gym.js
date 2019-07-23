@@ -190,7 +190,8 @@ export default class SnakeGame extends Phaser.Scene {
   gameHeight: number;
 
   preload() {
-    this.load.image('block', './src/envs/arcade/snake/block.png');
+    // This is still a fragile state of affairs, but I must decide how to handle images better so they load if you import gym
+    this.load.image('block', 'https://raw.githubusercontent.com/Tom2718/gym.js/master/src/envs/arcade/snake/block.png');
   }
 
   create() {
