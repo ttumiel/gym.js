@@ -1,4 +1,4 @@
-import { FrozenLake } from '../env';
+import FrozenLake from '../envs/text/FrozenLake';
 
 describe('FrozenLake', () => {
   let env = new FrozenLake(4, 0.8, false);

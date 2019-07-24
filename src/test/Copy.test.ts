@@ -1,4 +1,4 @@
-import { Copy } from '../env';
+import Copy from '../envs/algorithmic/Copy';
 
 describe('Copy', () => {
   let env = new Copy();

@@ -1,4 +1,5 @@
-import { Wrapper, FrozenLake } from '../env';
+import { Wrapper } from '../core';
+import FrozenLake from "../envs/text/FrozenLake";
 
 describe('Wrapper', () => {
   let env = new FrozenLake(4,0.8,false);

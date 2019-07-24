@@ -1,4 +1,4 @@
-import { Reverse } from '../env';
+import Reverse from '../envs/algorithmic/Reverse';
 
 describe('Reverse', () => {
   let env = new Reverse();
