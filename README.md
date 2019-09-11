@@ -1,10 +1,12 @@
 # gym.js
 
+![npm](https://img.shields.io/npm/v/gym-js)
+
 __Warning__: Under active development. APIs may change.
 
 A browser-based reinforcement learning environment. Based off of OpenAI's [Gym](https://github.com/openai/gym).
 
-[See the docs](https://tom2718.github.io/gym.js/index.html)
+[**Demo**](https://epic-darwin-f8b517.netlify.com/) | [**Docs**](https://tom2718.github.io/gym.js/index.html)
 
 ## Installation
 
