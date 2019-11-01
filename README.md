@@ -1,6 +1,7 @@
 # gym.js
 
 ![npm](https://img.shields.io/npm/v/gym-js)
+[![Build Status](https://travis-ci.org/ttumiel/gym.js.svg?branch=master)](https://travis-ci.org/ttumiel/gym.js)
 
 __Warning__: Under active development. APIs may change.
 
@@ -33,34 +34,3 @@ Please make a pull request for any contribution. In particular, you can reimplem
 ## Future Plans
 
 The aim for this library is to match `gym` with both functionality and environments. A list of environments still to be added is in the [`env`](https://github.com/Tom2718/gym.js/tree/master/src/envs#environments) folder.
-
-
-TODO:
-
-- Fix ts lint
-- avoid importing phaser without defining window (i.e. for static envs)
-- add more games (particularly legacy from Gym)
-- rename and rearrange `render` and `renderhtml` funcs
-- add support for parallel (web-worker) environments
-- make tuple Space class
-
-- __This week__:
-    - build out rl algos in fast-rl lib
-    - add tutorial to the interface
-    - add env documentation
-    - Add list of future envs and algos to show progress
-
-- __Next Week__:
-    - how to convert gym.js to interactive python env (i.e. can I convert tfjs tensor to pytf tensor)
-    - Update interface with other envs
-    - get in contact with organisations for an inaugural competition
-
-- __Week after__:
-    - Add user accounts
-    - Built out kaggle like functionality
-
-
-## DONE
-
-- Add docs
-- move into dist folder
