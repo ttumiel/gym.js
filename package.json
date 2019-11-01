@@ -6,7 +6,7 @@
   "types": "dist/env.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
+    "test": "jest --coverage --coverageReporters=text-lcov | coveralls",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "prepare": "npm run build",
@@ -19,11 +19,12 @@
   "author": "Thomas Tumiel",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Tom2718/gym.js.git"
+    "url": "https://github.com/ttumiel/gym.js.git"
   },
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^24.0.15",
+    "coveralls": "^3.0.7",
     "gh-pages": "^2.0.1",
     "jest": "^24.8.0",
     "live-server": "^1.2.1",

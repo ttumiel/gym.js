@@ -2,6 +2,7 @@
 
 ![npm](https://img.shields.io/npm/v/gym-js)
 [![Build Status](https://travis-ci.org/ttumiel/gym.js.svg?branch=master)](https://travis-ci.org/ttumiel/gym.js)
+[![Coverage Status](https://coveralls.io/repos/github/ttumiel/gym.js/badge.svg?branch=master)](https://coveralls.io/github/ttumiel/gym.js?branch=master)
 
 __Warning__: Under active development. APIs may change.
 
