@@ -1,5 +1,5 @@
-import Space from './spaces/space';
 import * as tf from '@tensorflow/tfjs';
+import Space from './spaces/space';
 
 /**
  * The main Gym.js class. It encapsulates an environment with
@@ -24,30 +24,31 @@ import * as tf from '@tensorflow/tfjs';
  *   - seed
  *
  *  And set the following attributes:
- *   - `action_space`: The Space object corresponding to valid actions
- *   - `observation_space`: The Space object corresponding to valid observations
+ *   - `actionSpace`: The Space object corresponding to valid actions
+ *   - `observationSpace`: The Space object corresponding to valid observations
  *   - `reward_range`: A tuple corresponding to the min and max possible rewards
  */
+// tslint:disable-next-line: interface-name
 interface Env {
   /**
    * The possible actions that can be taken. Either continuous or discrete.
    */
-  action_space: Space;
+  actionSpace: Space;
 
   /**
    * The observable world.
    */
-  observation_space: Space;
+  observationSpace: Space;
 
   /**
    * The possible rewards an agent can achieve.
    */
-  reward_range: Space;
+  rewardRange: Space;
 
   /**
    * Steps the environment according to some action.
    *
-   * @param action - The action to take (in action_space)
+   * @param action - The action to take (in actionSpace)
    * @returns - [observation, reward, done, info] tuple
    */
   step(action: number): [tf.Tensor, number, boolean, {}];
@@ -93,77 +94,79 @@ export default Env;
  * ```
  */
 class Wrapper {
+  public actionSpace: Space;
+  public observationSpace: Space;
+  protected env: Env | Wrapper;
   /**
    * @param env - The environment to wrap. Can also be another `Wrapper`.
    */
   constructor(env: Env | Wrapper) {
     this.env = env;
-    this.action_space = env.action_space;
-    this.observation_space = env.observation_space;
+    this.actionSpace = env.actionSpace;
+    this.observationSpace = env.observationSpace;
   }
 
-  env: Env | Wrapper;
-  action_space: Space;
-  observation_space: Space;
-
-  step(action: any): [any, any, any, any] {
+  public step(action: any): [any, any, any, any] {
     return this.env.step(action);
   }
 
-  reset(): any {
+  public reset(): any {
     return this.env.reset();
   }
 
-  toString():string {
+  public toString():string {
     return `<Wrapper>${this.env.toString()}</Wrapper>`;
   }
 }
 
+// tslint:disable-next-line: max-classes-per-file
 class ObservationWrapper extends Wrapper{
-  step(action: any): [any, any, any, any] {
-    let [obs,rew,done,info] = this.env.step(action);
-    return [this.observation(obs),rew,done,info];
+  public step(action: any): [any, any, any, any] {
+    const [obs, rew, done, info] = this.env.step(action);
+    return [this.observation(obs), rew, done, info];
   }
 
-  reset(): any {
+  public reset(): any {
     return this.observation(this.env.reset());
   }
 
-  observation(obs: any): any{
+  public observation(obs: any): any{
     return obs;
   }
 
-  toString():string {
+  public toString():string {
     return `<ObservationWrapper>${this.env.toString()}</ObservationWrapper>`;
   }
 }
 
+// tslint:disable-next-line: max-classes-per-file
 class ActionWrapper extends Wrapper{
-  step(action: any): [any, any, any, any] {
+  public step(action: any): [any, any, any, any] {
     action = this.action(action);
     return this.env.step(action);
   }
 
-  action(act: any): any{
+  public action(act: any): any{
     return act;
   }
 
-  toString():string {
+  public toString():string {
     return `<ActionWrapper>${this.env.toString()}</ActionWrapper>`;
   }
 }
 
+// tslint:disable-next-line: max-classes-per-file
 class RewardWrapper extends Wrapper {
-  step(action: any): [any, any, any, any] {
-    let [obs,rew,done,info] = this.env.step(action);
-    return [obs,this.reward(rew),done,info];
+  public step(action: any): [any, any, any, any] {
+    const [obs, rew, done, info] = this.env.step(action);
+    return [obs,this.reward(rew), done, info];
   }
 
-  reward(rew: any): any{
+  public reward(rew: any): any{
     return rew;
   }
 
-  toString():string {
+  public toString():string {
     return `<RewardWrapper>${this.env.toString()}</RewardWrapper>`;
   }
 }

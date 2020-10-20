@@ -27,7 +27,7 @@ let env = new FrozenLake();
 let observation = env.reset();
 for (const x of Array(1000).keys()) {
   env.render();
-  let action = env.action_space.sample();
+  let action = env.actionSpace.sample();
   observation, reward, done, info = env.step(action);
   if (done) observation = env.reset();
 }

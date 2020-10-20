@@ -13,12 +13,12 @@ export { Copy, Reverse };
 // -----------------------------------------------
 
 // Core
-import Env, { Wrapper, ObservationWrapper, ActionWrapper, RewardWrapper } from './core';
+import Env, { ActionWrapper, ObservationWrapper, RewardWrapper, Wrapper } from './core';
 export { Env, Wrapper, ObservationWrapper, ActionWrapper, RewardWrapper };
 // -----------------------------------------------
 
 // Spaces
-import Space from "./spaces/space";
 import Discrete, {DiscreteTuple} from './spaces/discrete';
+import Space from "./spaces/space";
 export {Space, Discrete, DiscreteTuple};
 // -----------------------------------------------

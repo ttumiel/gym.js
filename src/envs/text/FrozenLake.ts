@@ -22,12 +22,12 @@ import * as tf from '@tensorflow/tfjs';
  * let mapSize=4,p=0.8,isSlippery=false;
  * const env = new FrozenLake(mapSize, p, isSlippery);
  *
- * console.log(env.action_space.toString());
+ * console.log(env.actionSpace.toString());
  * > Discrete: 4    // 4 possible movements
- * console.log(env.observation_space.toString());
+ * console.log(env.observationSpace.toString());
  * > Discrete: 16   // 4x4 map
  *
- * let action = env.action_space.sample();
+ * let action = env.actionSpace.sample();
  * let [obs, rew, done, info] = env.step(action);
  * ```
  */
@@ -39,8 +39,8 @@ export default class FrozenLake implements Env {
    * in a random direction with probability `1-p`.
    */
   constructor(mapSize: number = 4, p: number = 0.8, isSlippery: boolean = true) {
-    this.action_space = new Discrete([4]);
-    this.reward_range = new Discrete([2]);
+    this.actionSpace = new Discrete([4]);
+    this.rewardRange = new Discrete([2]);
     this.isSlippery = isSlippery;
     this.p = p;
     this.done = false;
@@ -56,14 +56,14 @@ export default class FrozenLake implements Env {
       this.map = MAPS['4x4'];
     }
 
-    this.observation_space = new Discrete([this.mapSize * this.mapSize]);
+    this.observationSpace = new Discrete([this.mapSize * this.mapSize]);
     //this.generateRandomMap(mapSize, p);
-    this.observation_space.set(tf.tensor([0]));
+    this.observationSpace.set(tf.tensor([0]));
   }
 
-  action_space: Discrete;
-  observation_space: Discrete;
-  reward_range: Space;
+  actionSpace: Discrete;
+  observationSpace: Discrete;
+  rewardRange: Space;
   done: boolean;
   map: string[][];
   isSlippery: boolean;
@@ -84,7 +84,7 @@ export default class FrozenLake implements Env {
       this.col = newPos[1];
 
       let currentState = this.map[this.row][this.col];
-      this.observation_space.set(this._toObs());
+      this.observationSpace.set(this._toObs());
 
       if (currentState === 'H') {
         this.done = true;
@@ -99,16 +99,16 @@ export default class FrozenLake implements Env {
 
     this._callRender();
 
-    return [this.observation_space.get(), reward, this.done, {}];
+    return [this.observationSpace.get(), reward, this.done, {}];
   }
 
   reset(): tf.Tensor {
     this.done = false;
-    this.observation_space.set(tf.tensor([0]));
+    this.observationSpace.set(tf.tensor([0]));
     this.row = 0;
     this.col = 0;
     this._callRender();
-    return this.observation_space.get();
+    return this.observationSpace.get();
   }
 
   /**
@@ -126,7 +126,7 @@ export default class FrozenLake implements Env {
   private _callRender():void{
     if(this.mustRender){
       if (this.renderMode === "html"){
-        let currentObs = this.observation_space.get().dataSync()[0];
+        let currentObs = this.observationSpace.get().dataSync()[0];
         this.HTMLData = "<style>.currentState{background-color: red}</style>" +
           this.map.map((row, rowId) => (
             "<div>" + row.map((col, colId) => (
@@ -136,7 +136,7 @@ export default class FrozenLake implements Env {
             )).join("") + "</div>"
           )).join("");
       } else if (this.renderMode === "console") {
-        console.log(this.observation_space.get().dataSync());
+        console.log(this.observationSpace.get().dataSync());
       }
     }
   }
@@ -155,7 +155,7 @@ export default class FrozenLake implements Env {
 
   private move(row: number, col: number, action: number): [number, number] {
     if (this.isSlippery && Math.random() > 1 / 3) {
-      action = this.action_space.sample();
+      action = this.actionSpace.sample();
     }
     if (this.inMap(row, col, action)) {
       if (action === Direction.Up) {
@@ -208,7 +208,7 @@ function demo(): void {
     if (!done) {
       // game.render();
       outerEnv.innerHTML = game.renderHTML();
-      let action = game.action_space.sample();
+      let action = game.actionSpace.sample();
       console.log(decodeAction(action));
       let stepInfo = game.step(action);
       done = stepInfo[2];

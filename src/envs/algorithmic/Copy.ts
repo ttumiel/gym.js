@@ -4,7 +4,7 @@ import { TapeAlgorithmicEnv, decodeAction } from './AlgorithmicEnv';
  * A 1D algorithmic environment where the target is the same
  * as the observation.
  *
- * The 1D [[TapeAlgorithmicEnv]] has an `action_space` tuple
+ * The 1D [[TapeAlgorithmicEnv]] has an `actionSpace` tuple
  * with shape [2,2,10]. The first item is the chosen movement,
  * either left or right. The second item is whether to write
  * to the current position or not. Finally, the last value is
@@ -20,12 +20,12 @@ import { TapeAlgorithmicEnv, decodeAction } from './AlgorithmicEnv';
  * let base = 10;
  * const env = new Copy(base);
  *
- * console.log(env.action_space.toString());
+ * console.log(env.actionSpace.toString());
  * > DiscreteTuple: 2,2,10
- * console.log(env.observation_space.toString());
+ * console.log(env.observationSpace.toString());
  * > Discrete: 11
  *
- * let action = env.action_space.sample();
+ * let action = env.actionSpace.sample();
  * let [obs, rew, done, info] = env.step(action);
  * ```
  */
@@ -47,7 +47,7 @@ function demo() {
   window.setInterval(() => {
     if (!done) {
       outerEnv.innerHTML = game.renderHTML();
-      let action = game.action_space.sample();
+      let action = game.actionSpace.sample();
       console.log('Action:\n', decodeAction(action, game.MOVEMENTS));
       let stepInfo = game.step(action);
       console.log('Env obs:', stepInfo[0]);

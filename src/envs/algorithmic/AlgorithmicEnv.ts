@@ -29,8 +29,8 @@ abstract class AlgorithmicEnv implements Env {
   constructor(movements: string[], base: number = 10) {
     this.base = base;
     this.MOVEMENTS = movements;
-    this.action_space = new DiscreteTuple([this.MOVEMENTS.length, 2, this.base]);
-    this.observation_space = new Discrete([this.base + 1]);
+    this.actionSpace = new DiscreteTuple([this.MOVEMENTS.length, 2, this.base]);
+    this.observationSpace = new Discrete([this.base + 1]);
     this.charmap = range(base).map(i => String(i)); // range*rows for grid env
     this.charmap.push('_');
     this.mustRender = false;
@@ -38,9 +38,9 @@ abstract class AlgorithmicEnv implements Env {
     this.reset();
   }
 
-  action_space: DiscreteTuple;
-  observation_space: Discrete;
-  reward_range: Discrete;
+  actionSpace: DiscreteTuple;
+  observationSpace: Discrete;
+  rewardRange: Discrete;
   base: number;
   MOVEMENTS: string[];
   MIN_LENGTH: number = 5;
@@ -73,13 +73,13 @@ abstract class AlgorithmicEnv implements Env {
 
       // Move cursor
       this.move(action);
-      this.observation_space.set(this.toObs());
+      this.observationSpace.set(this.toObs());
     } else {
       console.warn('The environment has returned `done=True`. You should call `reset` before continuing.');
     }
 
     this._attemptRender();
-    return [this.observation_space.get(), this.reward, this.done, {}];
+    return [this.observationSpace.get(), this.reward, this.done, {}];
   }
 
   reset(): tf.Tensor {
@@ -90,9 +90,9 @@ abstract class AlgorithmicEnv implements Env {
     this.reward = 0.0;
     this.cursor = 0;
     this.agentActions = range(this.targetLength).map(() => -1);
-    this.observation_space.set(this.toObs());
+    this.observationSpace.set(this.toObs());
     this._attemptRender();
-    return this.observation_space.get();
+    return this.observationSpace.get();
   }
 
   /**
@@ -242,10 +242,10 @@ abstract class GridAlgorithmicEnv extends AlgorithmicEnv {
 }
 
 /**
- * Decode the algorithmic env tuple action_space into an object containing
+ * Decode the algorithmic env tuple actionSpace into an object containing
  * the decoded movement, write boolean, and the character to write.
  *
- * @param action An action in the `action_space` of the env.
+ * @param action An action in the `actionSpace` of the env.
  * @param movements The allowed movements of the env.
  */
 function decodeAction(action: actionSpace, movements: string[]): {} {
