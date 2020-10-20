@@ -12,20 +12,13 @@ import Reverse from './envs/algorithmic/Reverse';
 export { Copy, Reverse };
 // -----------------------------------------------
 
-// Arcade envs
-import Snake from './envs/arcade/snake/Snake';
-export { Snake };
-// -----------------------------------------------
-
-// ===============================================
-
 // Core
-import Env, { Wrapper, ObservationWrapper, ActionWrapper, RewardWrapper } from './core';
+import Env, { ActionWrapper, ObservationWrapper, RewardWrapper, Wrapper } from './core';
 export { Env, Wrapper, ObservationWrapper, ActionWrapper, RewardWrapper };
 // -----------------------------------------------
 
 // Spaces
-import Space from "./spaces/space";
 import Discrete, {DiscreteTuple} from './spaces/discrete';
+import Space from "./spaces/space";
 export {Space, Discrete, DiscreteTuple};
 // -----------------------------------------------

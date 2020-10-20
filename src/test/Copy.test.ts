@@ -4,15 +4,15 @@ describe('Copy', () => {
   let env = new Copy();
 
   //   it('action space', () => {
-  //     expect(env.action_space.shape).toEqual();
+  //     expect(env.actionSpace.shape).toEqual();
   //   });
 
   it('observation space', () => {
-    expect(env.observation_space.length).toEqual(env.base + 1);
+    expect(env.observationSpace.length).toEqual(env.base + 1);
   });
 
   it('steps', () => {
-    let action = env.action_space.sample();
+    let action = env.actionSpace.sample();
     env.step(action);
   })
 });
